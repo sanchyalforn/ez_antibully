@@ -105,8 +105,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
 
 	if professor.PasswordHash != pass {
+		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "{ \"status_code\": 404}")
 	} else {
+		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "{ \"status_code\": 200}")
 	}
 }
