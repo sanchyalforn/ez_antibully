@@ -22,11 +22,16 @@ func (a *App) ConnectToDb() {
 	a.DB = model.DBMigrate(db)
 }
 
-func (a *App) GetQuestions() []model.Question {
+func (a *App) GetQuestions() string {
 	questions := []model.Question{}
 	a.ConnectToDb()
-	//err :=
 	a.DB.Find(&questions)
-	//log.Fatal(err)
-	return questions
+
+	strQuestions := ""
+
+	for _, question := range questions {
+		strQuestions += "[{'id': '" + string(question.ID) + "', 'question': '" + question.Question + "'},"
+	}
+
+	return strQuestions + "]"
 }
