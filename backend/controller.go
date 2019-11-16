@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
@@ -32,6 +33,26 @@ func (a *App) ConnectToDb() {
 
 func Register(w http.ResponseWriter, r *http.Request) {
 
+	request, _ := ioutil.ReadAll(r.Body)
+	log.Println(string(request))
+
+	//professor := Professor{}
+	var data map[string]interface{}
+	json.Unmarshal([]byte(string(request)), &data)
+
+	professor := Professor{}
+
+	professor.Name = data["username"].(string)
+	professor.PasswordHash = data["password"].(string)
+
+	a := &App{}
+	a.ConnectToDb()
+
+	if err := a.DB.Save(&professor).Error; err != nil {
+		log.Println(err)
+	}
+
+	fmt.Fprintf(w, "OK")
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
