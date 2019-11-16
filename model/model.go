@@ -1,7 +1,8 @@
-package main
+package model
 
 import (
 	"github.com/jinzhu/gorm"
+	//:3
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
@@ -15,7 +16,6 @@ type Group struct {
 type Student struct {
 	gorm.Model
 	Name string `json:"name"`
-	Code int    `json:"code"`
 }
 
 type Professor struct {
@@ -37,4 +37,20 @@ type Graph struct {
 	gorm.Model
 	Group Group
 	Nodes []Node
+}
+
+type Question struct {
+	gorm.Model
+	Question string `json:"question"`
+}
+
+type Answer struct {
+	gorm.Model
+	Question Question
+	Answer   string `json:"answer"`
+}
+
+func DBMigrate(db *gorm.DB) *gorm.DB {
+	db.AutoMigrate(&Group{}, &Student{}, &Professor{}, &Node{}, &Graph{}, &Question{}, &Answer{})
+	return db
 }

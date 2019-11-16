@@ -33,6 +33,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 	_, err = fmt.Fprintf(w, string(res.body))
 	if err != nil {
 		log.Printf("Error serving home. Error: %s", err.Error())
+		log.Fatal(err)
 	}
 }
 
