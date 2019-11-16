@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/sanchyy/ez_antibully/model"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -31,7 +33,22 @@ func (a *App) ConnectToDb() {
 	a.DB = DBMigrate(db)
 }
 
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+}
+
+func setupResponse(w *http.ResponseWriter, req *http.Request) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+}
+
 func Register(w http.ResponseWriter, r *http.Request) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
 
 	request, _ := ioutil.ReadAll(r.Body)
 	log.Println(string(request))
@@ -48,6 +65,8 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	a := &App{}
 	a.ConnectToDb()
 
+	enableCors(&w)
+
 	if err := a.DB.Save(&professor).Error; err != nil {
 		log.Println(err)
 	}
@@ -56,6 +75,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
 	request, _ := ioutil.ReadAll(r.Body)
 	log.Println(string(request))
 
@@ -77,6 +102,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
+	enableCors(&w)
+
 	if professor.PasswordHash != pass {
 		fmt.Fprintf(w, "{ \"status_code\": 404}")
 	} else {
@@ -86,12 +113,23 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 func Home(w http.ResponseWriter, r *http.Request) {
 
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
 	log.Print("new connection :3")
 	res := &Response{
 		statusCode: 200,
 		body:       "Güelcom Jom",
 	}
+
+	enableCors(&w)
+
 	content, err := json.Marshal(res)
+
+	log.Println(w)
+
 	_, err = fmt.Fprintf(w, string(content))
 	if err != nil {
 		log.Printf("Error serving home. Error: %s", err.Error())
@@ -100,6 +138,12 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetQuestions(w http.ResponseWriter, r *http.Request) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
 	questions := []Question{}
 	a := &App{}
 	a.ConnectToDb()
@@ -110,6 +154,8 @@ func GetQuestions(w http.ResponseWriter, r *http.Request) {
 		log.Println(question.ID)
 		strQuestions += "[{\"id\": " + strconv.FormatUint(uint64(question.ID), 10) + ", \"question\": \"" + question.Question + "\"},"
 	}
+
+	enableCors(&w)
 
 	strQuestions = strQuestions[:len(strQuestions)-1] + "]"
 
@@ -122,6 +168,12 @@ func GetQuestions(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateGroup(w http.ResponseWriter, r *http.Request) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
 	//operations to create group on DB
 	status_code := 200
 	/*if err != nil {
@@ -137,6 +189,9 @@ func CreateGroup(w http.ResponseWriter, r *http.Request) {
 			}
 		},*/
 	}
+
+	enableCors(&w)
+
 	content, _ := json.Marshal(res)
 	_, err := fmt.Fprintf(w, string(content))
 	if err != nil {
@@ -150,7 +205,16 @@ func UpdateGroup(w http.ResponseWriter, r *http.Request) {
 
 func GetGroups(w http.ResponseWriter, r *http.Request) {
 
+<<<<<<< HEAD
 	groups := []Group{}
+=======
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
+	groups := []model.Group{}
+>>>>>>> 69be9a4d5dd5d88f47978880bdca5d737075d672
 	a := &App{}
 	a.ConnectToDb()
 	a.DB.Find(&groups)
@@ -170,6 +234,11 @@ func GetGroups(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
 
 	params, ok := r.URL.Query()["id"]
 
@@ -204,14 +273,26 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 
 	strUsers = strUsers[:len(strUsers)] + "]"
 
+	enableCors(&w)
+
 	log.Printf(strUsers)
 	fmt.Fprintf(w, strUsers)
 }
 
 func GetAnswers(w http.ResponseWriter, r *http.Request) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
 	params, ok := r.URL.Query()["questionId"]
 	if !ok || len(params[0]) < 1 {
+<<<<<<< HEAD
 		log.Print(w, "\"status\": Bad request\"\"}")
+=======
+		fmt.Fprintf(w, "\"status\": Bad request\"\"}")
+>>>>>>> 69be9a4d5dd5d88f47978880bdca5d737075d672
 	}
 	question := Question{}
 	questionId := params[0]
@@ -222,9 +303,19 @@ func GetAnswers(w http.ResponseWriter, r *http.Request) {
 	for _, answer := range question.Answers {
 		strAnswers += "{\"answer\": " + answer.Answer + "},"
 	}
+
+	enableCors(&w)
+
 	fmt.Fprintf(w, strAnswers)
 }
 
 func AddUser(w http.ResponseWriter, r *http.Request) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
+	enableCors(&w)
 
 }
