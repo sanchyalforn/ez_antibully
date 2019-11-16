@@ -186,21 +186,19 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 	a := &App{}
 	a.ConnectToDb()
 	a.DB.Where("id = ?", groupID).First(&group)
-	//strUsers := ""
+	strUsers := "["
 
 	for studentID := range group.Student {
 		log.Println(studentID)
-		//strUsers += "[{\"id\": " + strconv.FormatUint(uint64(user.ID), 10) + ", \"groups\": \"" + user.Groups + "\"},"
+		student := Student{}
+		a.DB.Where("id = ?", studentID).First(&student)
+		strUsers += "{\"id\": " + strconv.FormatUint(uint64(student.ID), 10) + ", \"Name\": \"" + student.Name + "\"},"
 	}
 
-	//strUsers = strUsers[:len(strUsers)-1] + "]"
+	strUsers = strUsers[:len(strUsers)] + "]"
 
-	//log.Printf(strUsers)
-	/*	res := &Response{
-			statusCode: 200,
-			body:       strQuestions,
-		}
-		fmt.Fprintf(w, strUsers)*/
+	log.Printf(strUsers)
+	fmt.Fprintf(w, strUsers)
 }
 
 func GetAnswers(w http.ResponseWriter, r *http.Request) {
