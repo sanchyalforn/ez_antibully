@@ -1,12 +1,12 @@
 package main
 
 import (
-	"../model"
 	"encoding/json"
 	"fmt"
-	"github.com/jinzhu/gorm"
 	"log"
 	"net/http"
+
+	"github.com/jinzhu/gorm"
 )
 
 type Response struct {
@@ -26,7 +26,7 @@ func (a *App) ConnectToDb() {
 		log.Fatal("Could not connect database")
 	}
 
-	a.DB = model.DBMigrate(db)
+	a.DB = DBMigrate(db)
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
@@ -53,16 +53,25 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetQuestions(w http.ResponseWriter, r *http.Request) {
-	questions := []model.Question{}
+	questions := []Question{}
 	a := &App{}
 	a.ConnectToDb()
 	a.DB.Find(&questions)
+
+	strQuestions := ""
+
+	for _, question := range questions {
+		strQuestions += "[{'id': '" + string(question.ID) + "', 'question': '" + question.Question + "'},"
+	}
+
+	strQuestions += "]"
+
 	res := &Response{
 		statusCode: 200,
-		body:       string(questions),
+		body:       strQuestions,
 	}
 	content, err := json.Marshal(res)
-	fmt.Fprintf(w, content)
+	fmt.Fprintf(w, string(content))
 	if err != nil {
 		fmt.Fprintf(w, "Error: %s", err)
 	}
