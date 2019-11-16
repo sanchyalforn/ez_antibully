@@ -137,7 +137,6 @@ func CreateGroup(w http.ResponseWriter, r *http.Request) {
 			}
 		},*/
 	}
-
 	content, _ := json.Marshal(res)
 	_, err := fmt.Fprintf(w, string(content))
 	if err != nil {
@@ -151,7 +150,6 @@ func UpdateGroup(w http.ResponseWriter, r *http.Request) {
 
 func GetGroups(w http.ResponseWriter, r *http.Request) {
 
-	groups := []Group{}
 	a := &App{}
 	a.ConnectToDb()
 	a.DB.Find(&groups)
@@ -204,27 +202,22 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAnswers(w http.ResponseWriter, r *http.Request) {
-
+	params, ok := r.URL.Query()["questionId"]
+	if !ok || len(params[0] < 1) {
+		fmt.Printf(w, "\"status\": Bad request\"\"}")
+	}
+	question := Question{}
+	questionId := params[0]
+	a := &App{}
+	a.ConnectToDb()
+	a.DB.Where("id = ?", questionId).First(&question)
+	strAnswers := "["
+	for _, answer := range question.Answers {
+		strAnswers += "{\"answer\": " + answer.Answer + "},"
+	}
+	fmt.Fprintf(w, strAnswers)
 }
 
 func AddUser(w http.ResponseWriter, r *http.Request) {
-	request, _ := ioutil.ReadAll(r.Body)
-	log.Println(string(request))
 
-	//professor := Professor{}
-	var data map[string]interface{}
-	json.Unmarshal([]byte(string(request)), &data)
-
-	student := Student{}
-
-	student.Name = data["name"].(string)
-
-	a := &App{}
-	a.ConnectToDb()
-
-	if err := a.DB.Save(&student).Error; err != nil {
-		log.Println(err)
-	}
-
-	fmt.Fprintf(w, "{ \"status_code\": 200}")
 }
