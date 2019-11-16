@@ -172,6 +172,35 @@ func GetGroups(w http.ResponseWriter, r *http.Request) {
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
 
+	params, ok := r.URL.Query()["id"]
+
+	if !ok || len(params[0]) < 1 {
+		log.Println("Url Param 'key' is missing")
+		return
+	}
+	groupID := params[0]
+
+	log.Println("id=", groupID)
+
+	group := Group{}
+	a := &App{}
+	a.ConnectToDb()
+	a.DB.Where("id = ?", groupID).First(&group)
+	//strUsers := ""
+
+	for studentID := range group.Student {
+		log.Println(studentID)
+		//strUsers += "[{\"id\": " + strconv.FormatUint(uint64(user.ID), 10) + ", \"groups\": \"" + user.Groups + "\"},"
+	}
+
+	//strUsers = strUsers[:len(strUsers)-1] + "]"
+
+	//log.Printf(strUsers)
+	/*	res := &Response{
+			statusCode: 200,
+			body:       strQuestions,
+		}
+		fmt.Fprintf(w, strUsers)*/
 }
 
 func GetAnswers(w http.ResponseWriter, r *http.Request) {
