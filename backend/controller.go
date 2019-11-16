@@ -137,6 +137,7 @@ func CreateGroup(w http.ResponseWriter, r *http.Request) {
 			}
 		},*/
 	}
+
 	content, _ := json.Marshal(res)
 	_, err := fmt.Fprintf(w, string(content))
 	if err != nil {
@@ -178,5 +179,23 @@ func GetAnswers(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddUser(w http.ResponseWriter, r *http.Request) {
+	request, _ := ioutil.ReadAll(r.Body)
+	log.Println(string(request))
 
+	//professor := Professor{}
+	var data map[string]interface{}
+	json.Unmarshal([]byte(string(request)), &data)
+
+	student := Student{}
+
+	student.Name = data["name"].(string)
+
+	a := &App{}
+	a.ConnectToDb()
+
+	if err := a.DB.Save(&student).Error; err != nil {
+		log.Println(err)
+	}
+
+	fmt.Fprintf(w, "{ \"status_code\": 200}")
 }
