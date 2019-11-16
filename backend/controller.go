@@ -1,10 +1,10 @@
 package main
 
 import (
+	"../model"
 	"encoding/json"
 	"fmt"
 	"github.com/jinzhu/gorm"
-	"github.com/sanchyy/ez_antibully/model"
 	"log"
 	"net/http"
 )
@@ -29,23 +29,23 @@ func (a *App) ConnectToDb() {
 	a.DB = model.DBMigrate(db)
 }
 
-func register() {
+func Register(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func login() {
+func Login(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func home(w http.ResponseWriter, r *http.Request) {
+func Home(w http.ResponseWriter, r *http.Request) {
 
 	log.Print("new connection :3")
 	res := &Response{
 		statusCode: 200,
 		body:       "Güelcom Jom",
 	}
-	_, err := json.Marshal(res)
-	_, err = fmt.Fprintf(w, string(res.body))
+	content, err := json.Marshal(res)
+	_, err = fmt.Fprintf(w, string(content))
 	if err != nil {
 		log.Printf("Error serving home. Error: %s", err.Error())
 		log.Fatal(err)
@@ -54,12 +54,12 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 func GetQuestions(w http.ResponseWriter, r *http.Request) {
 	questions := []model.Question{}
-	a := *App
+	a := &App{}
 	a.ConnectToDb()
 	a.DB.Find(&questions)
 	res := &Response{
 		statusCode: 200,
-		body:       questions,
+		body:       string(questions),
 	}
 	content, err := json.Marshal(res)
 	fmt.Fprintf(w, content)
@@ -69,36 +69,45 @@ func GetQuestions(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func createGroup(w http.ResponseWriter, r *http.Request) {
+func CreateGroup(w http.ResponseWriter, r *http.Request) {
 	//operations to create group on DB
-
+	status_code := 200
+	/*if err != nil {
+		status_code = 500
+	}*/
 	res := &Response{
-		statusCode: func() {
+		statusCode: status_code,
+		body:       "HOLA PUTA", /* func() {
 			if err != nil {
-				500
-			} else {
-				200
-			}
-		},
-		body: func() {
-			if err != nil {
-				fmt.sprintf("couldn't create group. Error: %s", err.Error())
+				fmt.Sprintf("couldn't create group. Error: %s", err.Error())
 			} else {
 				"Group created successfully"
 			}
-		},
+		},*/
 	}
-	content, err := json.Marshal(res)
+	content, _ := json.Marshal(res)
 	_, err := fmt.Fprintf(w, string(content))
 	if err != nil {
 		log.Printf(res.body)
 	}
 }
 
-func updateGroup() {
+func UpdateGroup(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func getGroups() {
+func GetGroups(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func GetUsers(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func GetAnswers(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func AddUser(w http.ResponseWriter, r *http.Request) {
 
 }
