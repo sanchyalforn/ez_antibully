@@ -150,6 +150,23 @@ func UpdateGroup(w http.ResponseWriter, r *http.Request) {
 
 func GetGroups(w http.ResponseWriter, r *http.Request) {
 
+	groups := []Group{}
+	a := &App{}
+	a.ConnectToDb()
+	a.DB.Find(&groups)
+	strGroups := "["
+
+	for _, group := range groups {
+		strStudents := "["
+		for _, student := range group.Student {
+			strStudents += "{\"name\": " + student.Name + "\"},"
+		}
+		strGroups += "{\"id\": " + strconv.FormatUint(uint64(group.ID), 10) + ", \"students\": \"" + strStudents + "\"},"
+	}
+
+	strGroups = strGroups[:len(strGroups)-1] + "]"
+	log.Printf(strGroups)
+	fmt.Fprintf(w, strGroups)
 }
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
