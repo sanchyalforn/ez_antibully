@@ -1,15 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"github/gorilla/mux"
+	"log"
+	"net/http"
 )
 
 func main() {
-	r := mux.NewRouter()
-	r.HandleFunc("/", Home).
-		Methods("GET")
-	r.HandleFunc("/newGroup", CreateGroup)
-	r.HandleFunc("/update/{groupId}", updateGroup)
-	http.Handle("/", r)
+	http.HandleFunc("/", home)
+	//http.HandleFunc("/newGroup", createGroup)
+	//http.HandleFunc("/update/{groupId}", updateGroup)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
