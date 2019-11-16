@@ -45,6 +45,11 @@ func setupResponse(w *http.ResponseWriter, req *http.Request) {
 
 func Register(w http.ResponseWriter, r *http.Request) {
 
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
 	request, _ := ioutil.ReadAll(r.Body)
 	log.Println(string(request))
 
@@ -70,6 +75,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
 	request, _ := ioutil.ReadAll(r.Body)
 	log.Println(string(request))
 
@@ -127,6 +138,12 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetQuestions(w http.ResponseWriter, r *http.Request) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
 	questions := []Question{}
 	a := &App{}
 	a.ConnectToDb()
@@ -151,6 +168,12 @@ func GetQuestions(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateGroup(w http.ResponseWriter, r *http.Request) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
 	//operations to create group on DB
 	status_code := 200
 	/*if err != nil {
@@ -182,6 +205,11 @@ func UpdateGroup(w http.ResponseWriter, r *http.Request) {
 
 func GetGroups(w http.ResponseWriter, r *http.Request) {
 
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
 	groups := []model.Group{}
 	a := &App{}
 	a.ConnectToDb()
@@ -202,6 +230,11 @@ func GetGroups(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
 
 	params, ok := r.URL.Query()["id"]
 
@@ -243,6 +276,12 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAnswers(w http.ResponseWriter, r *http.Request) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
 	params, ok := r.URL.Query()["questionId"]
 	if !ok || len(params[0]) < 1 {
 		fmt.Fprintf(w, "\"status\": Bad request\"\"}")
@@ -263,5 +302,12 @@ func GetAnswers(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddUser(w http.ResponseWriter, r *http.Request) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
+	enableCors(&w)
 
 }
