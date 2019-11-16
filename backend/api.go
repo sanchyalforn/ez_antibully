@@ -11,7 +11,7 @@ func main() {
 	http.HandleFunc("/login", Login)
 	http.HandleFunc("/getGroups", GetGroups)
 	http.HandleFunc("/addUser", AddUser)
-	http.HandleFunc("/getUsers/{groupId}", GetUsers)
+	http.HandleFunc("/getUsers", GetUsers)
 	http.HandleFunc("/getAnswers/{questionId}", GetAnswers)
 	http.HandleFunc("/addUsers/{groupId}", AddUser)
 	http.HandleFunc("/getQuestions", GetQuestions)
