@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
+import '../../styles/fonts.css'
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core';
 
 const useStyle = makeStyles(theme => ({
-    
   }));
 
 class Main extends Component {
 
     student() {
         console.log("STUDENT");
+        this.props.history.push("/student/login");
     }
 
     teacher() {
         console.log("TEACHER");
+        this.props.history.push("/teacher/login");
     }
 
     render() {

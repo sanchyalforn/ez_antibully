@@ -29,6 +29,8 @@ class Code extends Component {
     start() {
         console.log(this.state.name);
         console.log(this.state.code);
+        
+        this.props.history.push("/student");
     }
 
     render() {

@@ -30,6 +30,8 @@ class Login extends Component {
     login() {
         console.log(this.state.username);
         console.log(this.state.password);
+        
+        this.props.history.push("/teacher");
     }
 
     register() {
