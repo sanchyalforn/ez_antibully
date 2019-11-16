@@ -8,16 +8,16 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", home)
-	http.HandleFunc("/newGroup", createGroup)
-	http.HandleFunc("/login", login)
-	http.HandleFunc("/register", register)
-	http.HandleFunc("/getGroups/{userId}", getGroups)
-	http.HandleFunc("/addUser", addUser)
-	http.HandleFunc("/getUsers/{groupId}", getUsers)
-	http.HandleFunc("/getAnswers/{questionId", getAnswers)
-	http.HandleFunc("/getGroup/{groupId}", addUser)
-	http.HandleFunc("/update/{groupId}", updateGroup)
-
+	http.HandleFunc("/", Home)
+	http.HandleFunc("/newGroup", CreateGroup)
+	http.HandleFunc("/login", Login)
+	http.HandleFunc("/getGroups/{userId}", GetGroups)
+	http.HandleFunc("/addUser", AddUser)
+	http.HandleFunc("/getUsers/{groupId}", GetUsers)
+	http.HandleFunc("/getAnswers/{questionId}", GetAnswers)
+	http.HandleFunc("/getUsers/{groupId}", AddUser)
+	http.HandleFunc("/getQuestions", GetQuestions)
+	http.HandleFunc("/register", Register)
+	http.HandleFunc("/update/{groupId}", UpdateGroup)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
