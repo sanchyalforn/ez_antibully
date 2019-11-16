@@ -186,14 +186,22 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 	a := &App{}
 	a.ConnectToDb()
 	a.DB.Where("id = ?", groupID).First(&group)
+
 	strUsers := "["
 
-	for studentID := range group.Student {
-		log.Println(studentID)
-		student := Student{}
-		a.DB.Where("id = ?", studentID).First(&student)
+	for i := range group.Student {
+		log.Println(strconv.FormatUint(uint64(group.Student[i].ID), 10))
+		strUsers += "{\"id\": " + strconv.FormatUint(uint64(group.Student[i].ID), 10) + ", \"Name\": \"" + group.Student[i].Name + "\"},"
+	}
+
+	/*students := []Student{}
+	a.DB.Where("group = ?", group).Find(&students)
+
+	for student := range students {
+		log.Println(strconv.FormatUint(uint64(student.ID), 10))
 		strUsers += "{\"id\": " + strconv.FormatUint(uint64(student.ID), 10) + ", \"Name\": \"" + student.Name + "\"},"
 	}
+	*/
 
 	strUsers = strUsers[:len(strUsers)] + "]"
 
