@@ -52,11 +52,36 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
-	fmt.Fprintf(w, "OK")
+	fmt.Fprintf(w, "{ \"status_code\": 200}")
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
+	request, _ := ioutil.ReadAll(r.Body)
+	log.Println(string(request))
 
+	//professor := Professor{}
+	var data map[string]interface{}
+	json.Unmarshal([]byte(string(request)), &data)
+
+	professor := Professor{}
+
+	name := data["username"].(string)
+	pass := data["password"].(string)
+
+	a := &App{}
+	a.ConnectToDb()
+
+	a.DB.Where("name = ?", name).First(&professor)
+
+	if err := a.DB.Save(&professor).Error; err != nil {
+		log.Println(err)
+	}
+
+	if professor.PasswordHash != pass {
+		fmt.Fprintf(w, "{ \"status_code\": 404}")
+	} else {
+		fmt.Fprintf(w, "{ \"status_code\": 200}")
+	}
 }
 
 func Home(w http.ResponseWriter, r *http.Request) {
