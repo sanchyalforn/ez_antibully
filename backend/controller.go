@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/jinzhu/gorm"
 )
@@ -60,10 +61,12 @@ func GetQuestions(w http.ResponseWriter, r *http.Request) {
 	strQuestions := ""
 
 	for _, question := range questions {
-		strQuestions += "[{'id': '" + fmt.Sprint(question.ID) + "', 'question': '" + question.Question + "'},"
+		log.Println(question.ID)
+		strQuestions += "[{\"id\": " + strconv.FormatUint(uint64(question.ID), 10) + ", \"question\": \"" + question.Question + "\"},"
 	}
 
-	strQuestions += "]"
+	strQuestions = strQuestions[:len(strQuestions)-1] + "]"
+
 	log.Printf(strQuestions)
 	/*	res := &Response{
 		statusCode: 200,
