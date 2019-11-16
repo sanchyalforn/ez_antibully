@@ -68,7 +68,7 @@ const useStyles1 = makeStyles(theme => ({
   
   function MySnackbarContentWrapper(props) {
 	const classes = useStyles1();
-	const { className, message, onClose, variant } = props;
+	const { className, onClose, variant } = props;
   
 	return (
 	  <SnackbarContent
@@ -106,7 +106,7 @@ class Login extends Component {
 
   login() {
     api
-      .post("/users/login", {
+      .post("/login", {
         username: this.state.username,
         password: this.state.password
       })
@@ -171,8 +171,7 @@ class Login extends Component {
           </Grid>
           <Grid item xs={12}>
             <ColorButton
-              variant="contained"
-              color="default"
+              variant="extended"
               onClick={e => {
                 this.login();
               }}
@@ -183,8 +182,8 @@ class Login extends Component {
           </Grid>
           <Grid item xs={12}>
             <ColorButton
-              variant="contained"
-              onClick={this.register}
+              variant="extended"
+              onClick={() => {this.register()}}
               color="default"
             >
               Register

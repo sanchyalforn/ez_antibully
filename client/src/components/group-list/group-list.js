@@ -99,10 +99,10 @@ class Home extends Component {
                     />
                     </DialogContent>
                     <DialogActions>
-                        <ColorButton onClick={() => {this.handleClose() }} color="primary" variant="contained">
+                        <ColorButton onClick={() => {this.handleClose() }} variant="extended">
                             Cancel
                         </ColorButton> 
-                        <ColorButton onClick={() => {this.handleConfirm() }} color="primary" variant="contained">
+                        <ColorButton onClick={() => {this.handleConfirm() }} variant="extended">
                             Create
                         </ColorButton>
                     </DialogActions>
