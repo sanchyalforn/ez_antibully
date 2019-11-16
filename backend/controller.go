@@ -69,7 +69,3 @@ func updateGroup() {
 func getGroups() {
 
 }
-
-func addUser() {
-
-}
