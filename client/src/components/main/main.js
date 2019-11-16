@@ -1,12 +1,27 @@
 import React, { Component } from 'react';
-import '../../styles/fonts.css'
 
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core';
 
+const ColorButton = withStyles(theme => ({
+    root: {
+      color: 'white',
+      backgroundColor: '#00A99D',
+        '&:hover': {
+            backgroundColor: '#00877E',
+        },
+        '&:active': {
+            backgroundColor: '#04D1C3',
+        },
+      marginTop: "20px",
+      width: "400px"
+    },
+  }))(Fab);
+
 const useStyle = makeStyles(theme => ({
-  }));
+}));
 
 class Main extends Component {
 
@@ -22,18 +37,14 @@ class Main extends Component {
 
     render() {
         return (
-            <form className={this.props.classes.container} noValidate autoComplete="off">
-                <Button
-                    variant="contained"
-                    color="default"
-                    onClick={() => {this.student()}}
-                    className={this.props.classes.button}> STUDENT </Button>
-
-                <Button
-                    variant="contained"
-                    onClick={() => {this.teacher()}}
-                    color="default"> TEACHER </Button>
-            </form>
+            <Grid container direction="column" justify="center" alignItems="center">
+                <Grid item xs={12} style={{marginTop: '18%'}}>
+                    <ColorButton variant="extended" onClick={() => {this.teacher()}}> TEACHER </ColorButton>
+                </Grid>
+                <Grid item xs={12}>
+                    <ColorButton variant="extended" onClick={() => {this.student()}}> STUDENT </ColorButton>
+                </Grid>
+            </Grid>
         );
     };
 }

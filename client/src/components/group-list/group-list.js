@@ -10,7 +10,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 const useStyle = makeStyles(theme => ({
@@ -21,12 +20,32 @@ const useStyle = makeStyles(theme => ({
   },
 }));
 
+const TextFieldStyled = withStyles(theme => ({
+    root: {
+      marginBottom: '20px'
+    }
+  }))(TextField);
+
+const ColorButton = withStyles(theme => ({
+    root: {
+      color: 'white',
+      backgroundColor: '#00A99D',
+      '&:hover': {
+        backgroundColor: '#00A99D',
+      },
+      marginLeft: '20px'
+    },
+  }))(Fab);
+
 class Home extends Component {  
 
     constructor(props) {
         super(props);
 
-        this.state = { modalOpen: false };
+        this.state = { 
+            modalOpen: false,
+            listItems: new Map()
+        };
     }
 
     handleClickOpen = () => {
@@ -42,6 +61,19 @@ class Home extends Component {
         this.setState({modalOpen: false});
     }
     
+    loadGroups = () => {
+        
+        // Llista de grups
+
+        /*
+        
+        */ 
+
+
+        
+                    
+    }
+
 
     render() {
         return (
@@ -49,35 +81,39 @@ class Home extends Component {
                 <Dialog open={this.state.modalOpen} onClose={() => {this.handleClose() }} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Add New Group</DialogTitle>
                     <DialogContent>
-                    <TextField
+                    <TextFieldStyled
                         autoFocus
                         margin="dense"
                         id="name"
                         label="Group name"
                         fullWidth
                     />
+                    <TextFieldStyled
+                        autoFocus
+                        margin="dense"
+                        id="student-names"
+                        multiline
+                        rowsMax="4"
+                        label="Student names (separated by ,)"
+                        fullWidth
+                    />
                     </DialogContent>
                     <DialogActions>
-                    <Button onClick={() => {this.handleClose() }} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={() => {this.handleConfirm() }} color="primary">
-                        Confirm
-                    </Button>
+                        <ColorButton onClick={() => {this.handleClose() }} color="primary" variant="contained">
+                            Cancel
+                        </ColorButton> 
+                        <ColorButton onClick={() => {this.handleConfirm() }} color="primary" variant="contained">
+                            Create
+                        </ColorButton>
                     </DialogActions>
                 </Dialog>
 
-                <h1> Groups lists from professor X </h1>
-                <Fab color="primary" aria-label="add">
-                    <AddIcon onClick={() => {this.handleClickOpen() }}/>
-                </Fab>
-                <List component="nav" className={this.props.classes.root} aria-label="contacts">
-                <ListItem button>
-                    <ListItemText primary="Chelsea Otakan" onClick={() => {console.log("first")}}/>
-                </ListItem>
-                <ListItem button>
-                    <ListItemText primary="Eric Hoffman" onClick={() => {console.log("second")}}/>
-                </ListItem>
+                <h1 style={{textAlign: 'center'}}> Groups lists from professor X </h1>
+                <ColorButton variant="contained" onClick={() => {this.handleClickOpen() }}>
+                    <AddIcon /> Create new group
+                </ColorButton>
+                <List component="nav" className={this.props.classes.root} aria-label="contacts" style={{margin: '20px'}}>
+                    <ListItem button> <ListItemText primary={"asd"} onClick={() => {console.log("asd")}}/> </ListItem>
                 </List>
             </div>
             
