@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
@@ -32,10 +33,55 @@ func (a *App) ConnectToDb() {
 
 func Register(w http.ResponseWriter, r *http.Request) {
 
+	request, _ := ioutil.ReadAll(r.Body)
+	log.Println(string(request))
+
+	//professor := Professor{}
+	var data map[string]interface{}
+	json.Unmarshal([]byte(string(request)), &data)
+
+	professor := Professor{}
+
+	professor.Name = data["username"].(string)
+	professor.PasswordHash = data["password"].(string)
+
+	a := &App{}
+	a.ConnectToDb()
+
+	if err := a.DB.Save(&professor).Error; err != nil {
+		log.Println(err)
+	}
+
+	fmt.Fprintf(w, "{ \"status_code\": 200}")
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
+	request, _ := ioutil.ReadAll(r.Body)
+	log.Println(string(request))
 
+	//professor := Professor{}
+	var data map[string]interface{}
+	json.Unmarshal([]byte(string(request)), &data)
+
+	professor := Professor{}
+
+	name := data["username"].(string)
+	pass := data["password"].(string)
+
+	a := &App{}
+	a.ConnectToDb()
+
+	a.DB.Where("name = ?", name).First(&professor)
+
+	if err := a.DB.Save(&professor).Error; err != nil {
+		log.Println(err)
+	}
+
+	if professor.PasswordHash != pass {
+		fmt.Fprintf(w, "{ \"status_code\": 404}")
+	} else {
+		fmt.Fprintf(w, "{ \"status_code\": 200}")
+	}
 }
 
 func Home(w http.ResponseWriter, r *http.Request) {
@@ -104,6 +150,23 @@ func UpdateGroup(w http.ResponseWriter, r *http.Request) {
 
 func GetGroups(w http.ResponseWriter, r *http.Request) {
 
+	groups := []Group{}
+	a := &App{}
+	a.ConnectToDb()
+	a.DB.Find(&groups)
+	strGroups := "["
+
+	for _, group := range groups {
+		strStudents := "["
+		for _, student := range group.Student {
+			strStudents += "{\"name\": " + student.Name + "\"},"
+		}
+		strGroups += "{\"id\": " + strconv.FormatUint(uint64(group.ID), 10) + ", \"students\": \"" + strStudents + "\"},"
+	}
+
+	strGroups = strGroups[:len(strGroups)-1] + "]"
+	log.Printf(strGroups)
+	fmt.Fprintf(w, strGroups)
 }
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
