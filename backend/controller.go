@@ -150,6 +150,7 @@ func UpdateGroup(w http.ResponseWriter, r *http.Request) {
 
 func GetGroups(w http.ResponseWriter, r *http.Request) {
 
+	groups := []Group{}
 	a := &App{}
 	a.ConnectToDb()
 	a.DB.Find(&groups)
@@ -209,8 +210,8 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 
 func GetAnswers(w http.ResponseWriter, r *http.Request) {
 	params, ok := r.URL.Query()["questionId"]
-	if !ok || len(params[0] < 1) {
-		fmt.Printf(w, "\"status\": Bad request\"\"}")
+	if !ok || len(params[0]) < 1 {
+		log.Print(w, "\"status\": Bad request\"\"}")
 	}
 	question := Question{}
 	questionId := params[0]
