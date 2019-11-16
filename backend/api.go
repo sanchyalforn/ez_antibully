@@ -12,10 +12,10 @@ func main() {
 	http.HandleFunc("/getGroups", GetGroups)
 	http.HandleFunc("/addUser", AddUser)
 	http.HandleFunc("/getUsers", GetUsers)
-	http.HandleFunc("/getAnswers/{questionId}", GetAnswers)
-	http.HandleFunc("/addUsers/{groupId}", AddUser)
+	http.HandleFunc("/getAnswers", GetAnswers)
+	http.HandleFunc("/addUsers", AddUser)
 	http.HandleFunc("/getQuestions", GetQuestions)
 	http.HandleFunc("/register", Register)
-	http.HandleFunc("/update/{groupId}", UpdateGroup)
+	http.HandleFunc("/update", UpdateGroup)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
