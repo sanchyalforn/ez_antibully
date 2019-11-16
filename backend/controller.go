@@ -57,25 +57,19 @@ func GetQuestions(w http.ResponseWriter, r *http.Request) {
 	a := &App{}
 	a.ConnectToDb()
 	a.DB.Find(&questions)
-
 	strQuestions := ""
 
 	for _, question := range questions {
-		strQuestions += "[{'id': '" + string(question.ID) + "', 'question': '" + question.Question + "'},"
+		strQuestions += "[{'id': '" + fmt.Sprint(question.ID) + "', 'question': '" + question.Question + "'},"
 	}
 
 	strQuestions += "]"
-
-	res := &Response{
+	log.Printf(strQuestions)
+	/*	res := &Response{
 		statusCode: 200,
 		body:       strQuestions,
-	}
-	content, err := json.Marshal(res)
-	fmt.Fprintf(w, string(content))
-	if err != nil {
-		fmt.Fprintf(w, "Error: %s", err)
-	}
-
+	}*/
+	fmt.Fprintf(w, strQuestions)
 }
 
 func CreateGroup(w http.ResponseWriter, r *http.Request) {
