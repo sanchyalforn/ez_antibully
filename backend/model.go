@@ -9,14 +9,15 @@ import (
 //Group model for the database
 type Group struct {
 	gorm.Model
-	Name    string `json:"name"`
-	Student []Student
+	Name    string    `json:"name"`
+	Student []Student `gorm:"ForeignKey:GroupID"`
 }
 
 type Student struct {
 	gorm.Model
-	Name  string `json:"name"`
-	Group Group
+	Name    string `json:"name"`
+	GroupID int    `gorm:"column:group_id"`
+	Group   Group
 }
 
 type Professor struct {
@@ -29,9 +30,9 @@ type Professor struct {
 type Node struct {
 	gorm.Model
 	Student   Student
-	Relevancy int `json:"relevancy"`
-	Feeling   int `json:"feeling"`
-	Edges     []Node
+	Relevancy int    `json:"relevancy"`
+	Feeling   int    `json:"feeling"`
+	Edges     []Node `gorm:"one2many`
 }
 
 type Graph struct {
@@ -42,7 +43,8 @@ type Graph struct {
 
 type Question struct {
 	gorm.Model
-	Question string `json:"question"`
+	Question string   `json:"question"`
+	Answers  []Answer `gorm:"one2many`
 }
 
 type Answer struct {
@@ -53,5 +55,6 @@ type Answer struct {
 
 func DBMigrate(db *gorm.DB) *gorm.DB {
 	db.AutoMigrate(&Group{}, &Student{}, &Professor{}, &Node{}, &Graph{}, &Question{}, &Answer{})
+
 	return db
 }
