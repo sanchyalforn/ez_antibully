@@ -15,7 +15,8 @@ type Group struct {
 
 type Student struct {
 	gorm.Model
-	Name string `json:"name"`
+	Name  string `json:"name"`
+	Group Group
 }
 
 type Professor struct {
