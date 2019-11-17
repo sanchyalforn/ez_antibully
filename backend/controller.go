@@ -527,9 +527,9 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 func computeColor(value int) string {
 	if value <= 10 {
-		return "rgb(" + string(255-(value/10)*255) + " 0, 0)"
+		return "rgb(" + strconv.Itoa(255-(value/10)*255) + ", 0, 0)"
 	}
-	return "rgb(0, " + string((value/10)*255) + ", 0)"
+	return "rgb(0, " + strconv.Itoa(((value-10)/10)*255) + ", 0)"
 }
 
 func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
