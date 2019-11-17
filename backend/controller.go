@@ -523,9 +523,9 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 func computeColor(value int) string {
 	if value <= 10 {
-		return "[" + strconv.Itoa(255-(value/10)*255) + ", 0, 0, 1]"
+		return "[" + strconv.Itoa(int(255-(float64(value)/10)*255)) + ", 0, 0, 1]"
 	}
-	return "[0, " + strconv.Itoa(((value-10)/10)*255) + ", 0, 1]"
+	return "[0, " + strconv.Itoa(int((float64(value)-10)/10)*255) + ", 0, 1]"
 }
 
 func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -543,6 +543,11 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		id_origin    int
 		id_destinity int
 	}
+	rowsCount, _ := a.DB.Raw("SELECT COUNT(*) as count FROM new_node").Rows()
+	var count int
+	for rowsCount.Next() {
+		_ = rowsCount.Scan(&count)
+	}
 
 	rowsNodes, _ := a.DB.Raw("SELECT id, student_name, influencia, feeling FROM new_node").Rows()
 
@@ -553,11 +558,20 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var feeling int
 	var influencia int
 	defer rowsNodes.Close()
-	log.print(len(rowsNodes))
+	i := 0
+	j := 0
+	k := true
 	for rowsNodes.Next() {
 		_ = rowsNodes.Scan(&id, &student_name, &feeling, &influencia)
 
-		strGraph += "{\"id\": " + strconv.Itoa(id) + ", \"label\": \"" + student_name + "\", \"color\": " + computeColor(feeling) + ", \"x\": 0,\"y\": 0, \"size\": " + strconv.Itoa(influencia) + "},"
+		strGraph += "{\"id\": " + strconv.Itoa(id) + ", \"label\": \"" + student_name + "\", \"color\": " + computeColor(feeling) + ", \"x\":" + strconv.Itoa(i) + ",\"y\":" + strconv.Itoa(j) + ", \"size\": " + strconv.Itoa(influencia) + "},"
+		if k {
+			i++
+			k = false
+		} else {
+			j++
+			k = true
+		}
 	}
 	strGraph += "],\"edges\": ["
 
@@ -567,7 +581,7 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var node_id_2 int
 	defer rowsEdges.Close()
 
-	i := 0
+	i = 0
 	for rowsEdges.Next() {
 		_ = rowsEdges.Scan(&node_id_1, &node_id_2)
 		strGraph += "{\"id\": " + strconv.Itoa(i) + ", \"source\": " + strconv.Itoa(node_id_1) + ", \"x\": " + strconv.Itoa(node_id_2) + "},"
