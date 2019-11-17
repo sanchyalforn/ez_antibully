@@ -1,0 +1,12 @@
+.login-background {
+    background-image: url("../../images/fons2.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -9999;
+}

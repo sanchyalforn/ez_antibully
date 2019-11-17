@@ -1,3 +1,5 @@
 env/
 venv/
 *.swp
+node_modules/
+package-lock.json
