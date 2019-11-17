@@ -91,7 +91,7 @@ class Home extends Component {
     api
       .get("/getGroups")
       .then(resp => {
-        console.log(resp);
+        console.log(resp.data);
       })
       .catch(error => {
         if (error.response) {
@@ -102,31 +102,9 @@ class Home extends Component {
     arr.push(
       <ListItem button>
         <ListItemText
-          primary={"Elementary 1"}
+          primary={"LauzHack"}
           onClick={() => {
-            console.log("Elementary 1");
-            this.props.history.push("/teacher/graph");
-          }}
-        />
-      </ListItem>
-    );
-    arr.push(
-      <ListItem button>
-        <ListItemText
-          primary={"Elementary 2"}
-          onClick={() => {
-            console.log("Elementary 2");
-            this.props.history.push("/teacher/graph");
-          }}
-        />
-      </ListItem>
-    );
-    arr.push(
-      <ListItem button>
-        <ListItemText
-          primary={"Elementary 3"}
-          onClick={() => {
-            console.log("Elementary 3");
+            console.log("LauzHack");
             this.props.history.push("/teacher/graph");
           }}
         />
@@ -187,15 +165,15 @@ class Home extends Component {
           </DialogActions>
         </Dialog>
 
-        <h1 style={{ textAlign: "center" }}> Groups lists for Carlota </h1>
-        <ColorButton
+        <h1 style={{ textAlign: "center" }}> Groups lists for {getUsername()} </h1>
+        {/*<ColorButton
           variant="extended"
           onClick={() => {
             this.handleClickOpen();
           }}
         >
           <AddIcon /> Create new group
-        </ColorButton>
+        </ColorButton>*/}
         <List
           component="nav"
           className={this.props.classes.root}

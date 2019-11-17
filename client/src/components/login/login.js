@@ -17,6 +17,7 @@ import SnackbarContent from "@material-ui/core/SnackbarContent";
 import logo from "../../images/logo.PNG";
 import logoMillorat from "../../images/logomillorat.PNG";
 import logoTransparent from "../../images/logoTransparent.PNG";
+import loadingGif from "../../images/loading.gif";
 
 import api, { setUsername } from "../../api/axios";
 
@@ -101,7 +102,12 @@ class Login extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { username: "", password: "", openError: false };
+    this.state = {
+      username: "",
+      password: "",
+      openError: false,
+      loading: false
+    };
   }
 
   handleClose = (event, reason) => {
@@ -113,6 +119,7 @@ class Login extends Component {
   };
 
   login() {
+    this.setState({ loading: true });
     api
       .post("/login/", {
         username: this.state.username,
@@ -121,16 +128,19 @@ class Login extends Component {
       .then(resp => {
         setUsername(this.state.username);
         this.props.history.push("/teacher");
+        this.setState({ loading: false });
       })
       .catch(error => {
         this.setState({ openError: true });
         if (error.response) {
           console.log(error.response);
+          this.setState({ loading: false });
         }
       });
   }
 
   register() {
+    this.setState({ loading: true });
     api
       .post("/register/", {
         username: this.state.username,
@@ -139,11 +149,13 @@ class Login extends Component {
       .then(resp => {
         setUsername(this.state.username);
         this.props.history.push("/teacher");
+        this.setState({ loading: false });
       })
       .catch(error => {
         this.setState({ openError: true });
         if (error.response) {
           console.log(error.response);
+          this.setState({ loading: false });
         }
       });
   }
@@ -169,7 +181,7 @@ class Login extends Component {
           />
         </Snackbar>
         <Grid container direction="column" justify="center" alignItems="center">
-        <div style={{ textAlign: "center", marginTop: "6%" }}>
+          <div style={{ textAlign: "center", marginTop: "6%" }}>
             <img src={logoTransparent} alt={logo} />
             <img src={logoMillorat} alt={logo} />
             <img src={logo} alt={logo} />
@@ -197,28 +209,38 @@ class Login extends Component {
               variant="outlined"
             />
           </Grid>
-          <Grid item xs={12}>
-            <ColorButton
-              variant="extended"
-              onClick={e => {
-                this.login();
-              }}
-              className={this.props.classes.button}
-            >
-              Login
-            </ColorButton>
-          </Grid>
-          <Grid item xs={12}>
-            <ColorButton
-              variant="extended"
-              onClick={() => {
-                this.register();
-              }}
-              color="default"
-            >
-              Register
-            </ColorButton>
-          </Grid>
+          {this.state.loading ? (
+            <img
+              src={loadingGif}
+              alt="spinner"
+              style={{ width: 300, marginBottom: -12 }}
+            />
+          ) : (
+            <div>
+              <Grid item xs={12}>
+                <ColorButton
+                  variant="extended"
+                  onClick={e => {
+                    this.login();
+                  }}
+                  className={this.props.classes.button}
+                >
+                  Login
+                </ColorButton>
+              </Grid>
+              <Grid item xs={12}>
+                <ColorButton
+                  variant="extended"
+                  onClick={() => {
+                    this.register();
+                  }}
+                  color="default"
+                >
+                  Register
+                </ColorButton>
+              </Grid>
+            </div>
+          )}
         </Grid>
       </form>
     );

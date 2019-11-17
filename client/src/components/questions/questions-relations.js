@@ -452,7 +452,7 @@ class Relations extends Component {
               WHO WOULD YOU CHOOSE TO DO A SCHOOL PROJECT?
             </h1>
 
-            <div style={{textAlign: "center"}}>
+            <div style={{ textAlign: "center" }}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <FormControl>
@@ -560,58 +560,60 @@ class Relations extends Component {
             >
               {this.state.response2}
             </h2>
-            <Grid container>
-              <Grid item xs={6}>
-                <ColorButtonWhite
-                  variant="extended"
-                  onClick={() => {
-                    this.selectOption("first");
-                  }}
-                >
-                  {this.state.partner1}
-                </ColorButtonWhite>
+            <div style={{ textAlign: "center" }}>
+              <Grid container>
+                <Grid item xs={6}>
+                  <ColorButtonWhite
+                    variant="extended"
+                    onClick={() => {
+                      this.selectOption("first");
+                    }}
+                  >
+                    {this.state.partner1}
+                  </ColorButtonWhite>
+                </Grid>
+                <Grid item xs={6}>
+                  <ColorButtonWhite
+                    variant="extended"
+                    onClick={() => {
+                      this.selectOption("second");
+                    }}
+                  >
+                    {this.state.partner2}
+                  </ColorButtonWhite>
+                </Grid>
+                <Grid item xs={6}>
+                  <ColorButtonWhite
+                    variant="extended"
+                    onClick={() => {
+                      this.selectOption("third");
+                    }}
+                  >
+                    {this.state.partner3}
+                  </ColorButtonWhite>
+                </Grid>
+                <Grid item xs={6}>
+                  <ColorButtonWhite
+                    variant="extended"
+                    onClick={() => {
+                      this.selectOption("fourth");
+                    }}
+                  >
+                    {this.state.partner4}
+                  </ColorButtonWhite>
+                </Grid>
+                <Grid item xs={6}>
+                  <ColorButtonWhite
+                    variant="extended"
+                    onClick={() => {
+                      this.selectOption("me");
+                    }}
+                  >
+                    ME
+                  </ColorButtonWhite>
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <ColorButtonWhite
-                  variant="extended"
-                  onClick={() => {
-                    this.selectOption("second");
-                  }}
-                >
-                  {this.state.partner2}
-                </ColorButtonWhite>
-              </Grid>
-              <Grid item xs={6}>
-                <ColorButtonWhite
-                  variant="extended"
-                  onClick={() => {
-                    this.selectOption("third");
-                  }}
-                >
-                  {this.state.partner3}
-                </ColorButtonWhite>
-              </Grid>
-              <Grid item xs={6}>
-                <ColorButtonWhite
-                  variant="extended"
-                  onClick={() => {
-                    this.selectOption("fourth");
-                  }}
-                >
-                  {this.state.partner4}
-                </ColorButtonWhite>
-              </Grid>
-              <Grid item xs={6}>
-                <ColorButtonWhite
-                  variant="extended"
-                  onClick={() => {
-                    this.selectOption("me");
-                  }}
-                >
-                  ME
-                </ColorButtonWhite>
-              </Grid>
-            </Grid>
+            </div>
             <div style={{ textAlign: "center" }}>
               <ColorButton
                 variant="extended"
@@ -646,77 +648,78 @@ class Relations extends Component {
             >
               WHO WOULD YOU CHOOSE TO PLAY AT THE PLAYGROUND?
             </h1>
-
-            <Grid container spacing={4}>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    First friend
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.playground1}
-                    onChange={e => {
-                      this.setState({ playground1: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
+            <div style={{ textAlign: "center" }}>
+              <Grid container spacing={4}>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      First friend
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.playground1}
+                      onChange={e => {
+                        this.setState({ playground1: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Second friend
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.playground2}
+                      onChange={e => {
+                        this.setState({ playground2: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Third friend
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.playground3}
+                      onChange={e => {
+                        this.setState({ playground3: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Fourth friend
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.playground4}
+                      onChange={e => {
+                        this.setState({ playground4: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    Second friend
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.playground2}
-                    onChange={e => {
-                      this.setState({ playground2: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    Third friend
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.playground3}
-                    onChange={e => {
-                      this.setState({ playground3: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    Fourth friend
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.playground4}
-                    onChange={e => {
-                      this.setState({ playground4: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
-              </Grid>
-            </Grid>
+            </div>
 
             <div style={{ textAlign: "center" }}>
               <ColorButton
@@ -752,42 +755,44 @@ class Relations extends Component {
             >
               WHO WOULD YOU CHOOSE TO BE IN AN AIRLPAIN CABIN?
             </h1>
-            <Grid container spacing={4}>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    First tripulant
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.airplane1}
-                    onChange={e => {
-                      this.setState({ airplane1: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
+            <div style={{ textAlign: "center" }}>
+              <Grid container spacing={4}>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      First tripulant
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.airplane1}
+                      onChange={e => {
+                        this.setState({ airplane1: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Second tripulant
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.airplane2}
+                      onChange={e => {
+                        this.setState({ airplane2: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    Second tripulant
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.airplane2}
-                    onChange={e => {
-                      this.setState({ airplane2: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
-              </Grid>
-            </Grid>
+            </div>
             <div style={{ textAlign: "center" }}>
               <ColorButton
                 variant="extended"
@@ -831,39 +836,40 @@ class Relations extends Component {
             >
               {this.state.response5}
             </h2>
-
-            <Grid container>
-              <Grid item xs={6}>
-                <ColorButtonWhite
-                  variant="extended"
-                  onClick={() => {
-                    this.selectOptionPilot("first");
-                  }}
-                >
-                  {this.state.airplane1}
-                </ColorButtonWhite>
+            <div style={{ textAlign: "center" }}>
+              <Grid container>
+                <Grid item xs={6}>
+                  <ColorButtonWhite
+                    variant="extended"
+                    onClick={() => {
+                      this.selectOptionPilot("first");
+                    }}
+                  >
+                    {this.state.airplane1}
+                  </ColorButtonWhite>
+                </Grid>
+                <Grid item xs={6}>
+                  <ColorButtonWhite
+                    variant="extended"
+                    onClick={() => {
+                      this.selectOptionPilot("second");
+                    }}
+                  >
+                    {this.state.airplane2}
+                  </ColorButtonWhite>
+                </Grid>
+                <Grid item xs={6}>
+                  <ColorButtonWhite
+                    variant="extended"
+                    onClick={() => {
+                      this.selectOptionPilot("me");
+                    }}
+                  >
+                    ME
+                  </ColorButtonWhite>
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <ColorButtonWhite
-                  variant="extended"
-                  onClick={() => {
-                    this.selectOptionPilot("second");
-                  }}
-                >
-                  {this.state.airplane2}
-                </ColorButtonWhite>
-              </Grid>
-              <Grid item xs={6}>
-                <ColorButtonWhite
-                  variant="extended"
-                  onClick={() => {
-                    this.selectOptionPilot("me");
-                  }}
-                >
-                  ME
-                </ColorButtonWhite>
-              </Grid>
-            </Grid>
+            </div>
             <div style={{ textAlign: "center" }}>
               <ColorButton
                 variant="extended"
@@ -908,60 +914,61 @@ class Relations extends Component {
               In this question you can select only one classmate and up to 3.{" "}
               <br /> The order is important!
             </h2>
-            <Grid container spacing={4}>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    First confident
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.belive1}
-                    onChange={e => {
-                      this.setState({ belive1: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
+            <div style={{ textAlign: "center" }}>
+              <Grid container spacing={4}>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      First confident
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.belive1}
+                      onChange={e => {
+                        this.setState({ belive1: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Second confident
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.belive2}
+                      onChange={e => {
+                        this.setState({ belive2: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Third confident
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.belive3}
+                      onChange={e => {
+                        this.setState({ belive3: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    Second confident
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.belive2}
-                    onChange={e => {
-                      this.setState({ belive2: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    Third confident
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.belive3}
-                    onChange={e => {
-                      this.setState({ belive3: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
-              </Grid>
-            </Grid>
-
+            </div>
             <div style={{ textAlign: "center" }}>
               <ColorButton
                 variant="extended"
@@ -996,59 +1003,61 @@ class Relations extends Component {
             >
               WHO IS THE BEST STORIES STORYTELLER?
             </h1>
-            <Grid container spacing={4}>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    First storyteller
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.stories1}
-                    onChange={e => {
-                      this.setState({ stories1: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
+            <div style={{ textAlign: "center" }}>
+              <Grid container spacing={4}>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      First storyteller
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.stories1}
+                      onChange={e => {
+                        this.setState({ stories1: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Second storyteller
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.stories2}
+                      onChange={e => {
+                        this.setState({ stories2: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Third storyteller
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.stories3}
+                      onChange={e => {
+                        this.setState({ stories3: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    Second storyteller
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.stories2}
-                    onChange={e => {
-                      this.setState({ stories2: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    Third storyteller
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.stories3}
-                    onChange={e => {
-                      this.setState({ stories3: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
-              </Grid>
-            </Grid>
+            </div>
             <div style={{ textAlign: "center" }}>
               <ColorButton
                 variant="extended"
