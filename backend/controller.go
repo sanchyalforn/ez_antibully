@@ -567,9 +567,6 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	rowsEdges, _ := a.DB.Raw("SELECT node_id_1, node_id_2 FROM connections").Rows()
 
-	log.Println("THIS IS A TEST")
-	log.Println(rowsEdges)
-
 	var node_id_1 int
 	var node_id_2 int
 	defer rowsEdges.Close()
