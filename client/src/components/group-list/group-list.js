@@ -187,7 +187,7 @@ class Home extends Component {
           </DialogActions>
         </Dialog>
 
-        <h1 style={{ textAlign: "center" }}> Groups lists for {getUsername()} </h1>
+        <h1 style={{ textAlign: "center" }}> Groups lists for Carlota </h1>
         <ColorButton
           variant="extended"
           onClick={() => {

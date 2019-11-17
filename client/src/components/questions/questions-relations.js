@@ -68,7 +68,8 @@ const ColorButtonStart = withStyles(theme => ({
 
 const SelectStyled = withStyles(theme => ({
   root: {
-    width: "450px"
+    width: "450px",
+    textAlign: "left"
   }
 }))(Select);
 
@@ -135,14 +136,14 @@ class Relations extends Component {
     console.log(this.state);
 
     var sendToBackend = {
-      "response1": this.state.response1,
-      "response2": this.state.response2,
-      "response3": this.state.response3,
-      "response4": this.state.response4,
-      "response5": this.state.response5,
-      "response6": this.state.response6,
-      "response7": this.state.response7,
-    }
+      response1: this.state.response1,
+      response2: this.state.response2,
+      response3: this.state.response3,
+      response4: this.state.response4,
+      response5: this.state.response5,
+      response6: this.state.response6,
+      response7: this.state.response7
+    };
 
     console.log(sendToBackend);
 
@@ -451,76 +452,78 @@ class Relations extends Component {
               WHO WOULD YOU CHOOSE TO DO A SCHOOL PROJECT?
             </h1>
 
-            <Grid container spacing={4}>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    First partner
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.partner1}
-                    onChange={e => {
-                      this.setState({ partner1: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
+            <div style={{textAlign: "center"}}>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      First partner
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.partner1}
+                      onChange={e => {
+                        this.setState({ partner1: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Second partner
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.partner2}
+                      onChange={e => {
+                        this.setState({ partner2: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Third partner
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.partner3}
+                      onChange={e => {
+                        this.setState({ partner3: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Fourth partner
+                    </InputLabel>
+                    <SelectStyled
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={this.state.partner4}
+                      onChange={e => {
+                        this.setState({ partner4: e.target.value });
+                      }}
+                    >
+                      {this.state.classmates}
+                    </SelectStyled>
+                  </FormControl>
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    Second partner
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.partner2}
-                    onChange={e => {
-                      this.setState({ partner2: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    Third partner
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.partner3}
-                    onChange={e => {
-                      this.setState({ partner3: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    Fourth partner
-                  </InputLabel>
-                  <SelectStyled
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.state.partner4}
-                    onChange={e => {
-                      this.setState({ partner4: e.target.value });
-                    }}
-                  >
-                    {this.state.classmates}
-                  </SelectStyled>
-                </FormControl>
-              </Grid>
-            </Grid>
+            </div>
 
             <div style={{ textAlign: "center" }}>
               <ColorButton
