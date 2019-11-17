@@ -10,14 +10,15 @@ import (
 type Group struct {
 	gorm.Model
 	Name    string    `json:"name"`
-	Student []Student `gorm:"ForeignKey:GroupID"`
+	Student []Student `gorm:"ForeignKey:ID;AssociationForeignKey:GroupID"`
 }
 
 type Student struct {
 	gorm.Model
-	Name    string `json:"name"`
-	GroupID int    `gorm:"column:group_id"`
-	Group   Group
+	Name    string 	`json:"name"`
+	Code	int		`json:"code"`
+	GroupID int		`gorm:"size:10" json:"group_id"`
+	Group   Group	`gorm:"ForeignKey:GroupID;AssociationForeignKey:ID"`
 }
 
 type Professor struct {
@@ -55,6 +56,7 @@ type Answer struct {
 
 func DBMigrate(db *gorm.DB) *gorm.DB {
 	db.AutoMigrate(&Group{}, &Student{}, &Professor{}, &Node{}, &Graph{}, &Question{}, &Answer{})
+	db.Model(&Student{}).AddForeignKey("group_id", "groups(id)", "RESTRICT", "RESTRICT")
 
 	return db
 }

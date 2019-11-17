@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/jinzhu/gorm"
+	"github.com/julienschmidt/httprouter"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -27,6 +28,7 @@ func (a *App) ConnectToDb() {
 		log.Fatal("Could not connect database")
 	}
 
+	log.Println("uwu")
 	a.DB = DBMigrate(db)
 }
 
@@ -40,7 +42,7 @@ func setupResponse(w *http.ResponseWriter, req *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
 
-func Register(w http.ResponseWriter, r *http.Request) {
+func Register(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	setupResponse(&w, r)
 	if (*r).Method == "OPTIONS" {
@@ -71,7 +73,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "{ \"status_code\": 200}")
 }
 
-func Login(w http.ResponseWriter, r *http.Request) {
+func Login(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	setupResponse(&w, r)
 	if (*r).Method == "OPTIONS" {
@@ -110,7 +112,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func Home(w http.ResponseWriter, r *http.Request) {
+func Home(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	setupResponse(&w, r)
 	if (*r).Method == "OPTIONS" {
@@ -127,7 +129,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 
 	content, err := json.Marshal(res)
 
-	log.Println(w)
+	//log.Println(w)
 
 	_, err = fmt.Fprintf(w, string(content))
 	if err != nil {
@@ -136,7 +138,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func GetQuestions(w http.ResponseWriter, r *http.Request) {
+func GetQuestions(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	setupResponse(&w, r)
 	if (*r).Method == "OPTIONS" {
@@ -166,7 +168,7 @@ func GetQuestions(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, strQuestions)
 }
 
-func CreateGroup(w http.ResponseWriter, r *http.Request) {
+func CreateGroup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	setupResponse(&w, r)
 	if (*r).Method == "OPTIONS" {
@@ -198,7 +200,7 @@ func CreateGroup(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func UpdateGroup(w http.ResponseWriter, r *http.Request) {
+func UpdateGroup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	if (*r).Method != "PUT" || (*r).Method != "POST" {
 		return
 	}
@@ -219,10 +221,9 @@ func UpdateGroup(w http.ResponseWriter, r *http.Request) {
 	a := &App{}
 	a.ConnectToDb()
 	a.DB.Where("id = ?", groupID).Update("Student", newUsers)
-
 }
 
-func GetGroups(w http.ResponseWriter, r *http.Request) {
+func GetGroups(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	groups := []Group{}
 	setupResponse(&w, r)
@@ -248,7 +249,9 @@ func GetGroups(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, strGroups)
 }
 
-func GetUsers(w http.ResponseWriter, r *http.Request) {
+func GetUsers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	log.Print("testerino")
 
 	setupResponse(&w, r)
 	if (*r).Method == "OPTIONS" {
@@ -265,17 +268,20 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("id=", groupID)
 
-	group := Group{}
+	student := []Student{}
+
 	a := &App{}
 	a.ConnectToDb()
-	a.DB.Where("id = ?", groupID).First(&group)
+	a.DB.Find(&student)
+
+	log.Println(student)
 
 	strUsers := "["
 
-	for i := range group.Student {
-		log.Println(strconv.FormatUint(uint64(group.Student[i].ID), 10))
-		strUsers += "{\"id\": " + strconv.FormatUint(uint64(group.Student[i].ID), 10) + ", \"Name\": \"" + group.Student[i].Name + "\"},"
-	}
+	//for i := range group.Student {
+	//	log.Println(strconv.FormatUint(uint64(group.Student[i].ID), 10))
+	//	strUsers += "{\"id\": " + strconv.FormatUint(uint64(group.Student[i].ID), 10) + ", \"Name\": \"" + group.Student[i].Name + "\"},"
+	//}
 
 	/*students := []Student{}
 	a.DB.Where("group = ?", group).Find(&students)
@@ -290,11 +296,11 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 
 	enableCors(&w)
 
-	log.Printf(strUsers)
+	//log.Printf(strUsers)
 	fmt.Fprintf(w, strUsers)
 }
 
-func GetAnswers(w http.ResponseWriter, r *http.Request) {
+func GetAnswers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	setupResponse(&w, r)
 	if (*r).Method == "OPTIONS" {
@@ -321,13 +327,38 @@ func GetAnswers(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, strAnswers)
 }
 
-func AddUser(w http.ResponseWriter, r *http.Request) {
+func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	setupResponse(&w, r)
 	if (*r).Method == "OPTIONS" {
 		return
 	}
 
+	request, _ := ioutil.ReadAll(r.Body)
+	log.Println(string(request))
+
+	//professor := Professor{}
+	var data map[string]interface{}
+	json.Unmarshal([]byte(string(request)), &data)
+
+	student := Student{}
+
+	a := &App{}
+	a.ConnectToDb()
+
+	code ,_ := strconv.ParseInt(data["code"].(string), 10, 64)
+	gid, _ := strconv.ParseInt(data["groupid"].(string), 10, 64)
+
+	student.Name = data["name"].(string)
+	student.Code = int(code)
+
+	a.DB.Where("id = ?", int(gid)).First(&student.Group)
+
 	enableCors(&w)
 
+	if err := a.DB.Save(&student).Error; err != nil {
+		log.Println(err)
+	}
+
+	fmt.Fprintf(w, "{ \"status_code\": 200}")
 }
