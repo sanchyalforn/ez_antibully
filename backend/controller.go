@@ -200,6 +200,12 @@ func CreateGroup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 }
 
 func UpdateGroup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
 	if (*r).Method != "PUT" || (*r).Method != "POST" {
 		return
 	}
@@ -215,6 +221,8 @@ func UpdateGroup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	var data map[string]interface{}
 	json.Unmarshal([]byte(string(request)), &data)
+
+	enableCors(&w)
 
 	newUsers := data["students"].(string)
 	a := &App{}
@@ -248,7 +256,176 @@ func GetGroups(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	fmt.Fprintf(w, strGroups)
 }
 
+func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
+	// Generate Graph
+
+	enableCors(&w)
+	fmt.Fprintf(w, "OK")
+}
+
+func UpdateNode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
+	params, ok := r.URL.Query()["student"]
+
+	if !ok || len(params[0]) < 1 {
+		log.Println("Url Param 'key' is missing")
+		return
+	}
+
+	request, _ := ioutil.ReadAll(r.Body)
+
+	var data map[string]interface{}
+	json.Unmarshal([]byte(string(request)), &data)
+
+	r1,_ := strconv.ParseInt(data["response1"].(string), 10, 64)
+	r2,_ := strconv.ParseInt(data["response2"].(string), 10, 64)
+	r3,_ := strconv.ParseInt(data["response3"].(string), 10, 64)
+	r4,_ := strconv.ParseInt(data["response4"].(string), 10, 64)
+	r5,_ := strconv.ParseInt(data["response5"].(string), 10, 64)
+
+	result := r1+r2+r3+r4+r5
+
+	a := &App{}
+	a.ConnectToDb()
+
+	a.DB.Exec("UPDATE `new_node` SET  `feeling` = ? WHERE `student_name` = ?", result, params[0])
+
+	enableCors(&w)
+	fmt.Fprintf(w, "OK")
+}
+
+func UpdateEdges(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+
+	params, ok := r.URL.Query()["student"]
+
+	if !ok || len(params[0]) < 1 {
+		log.Println("Url Param 'key' is missing")
+		return
+	}
+
+	request, _ := ioutil.ReadAll(r.Body)
+
+	var data map[string]interface{}
+	json.Unmarshal([]byte(string(request)), &data)
+
+	r1,_ := data["response1"]
+
+	r3,_ := data["response3"]
+	r4,_ := data["response4"]
+
+	r6,_ := data["response6"]
+	r7,_ := data["response7"]
+
+	a := &App{}
+	a.ConnectToDb()
+
+	log.Println("AAAAAAA " + params[0])
+	rows, _ := a.DB.Raw("SELECT id FROM new_node WHERE student_name = ?", params[0]).Rows()
+
+	var id int
+	defer rows.Close()
+
+	for rows.Next() {
+
+		_ = rows.Scan(&id)
+		log.Print(id)
+	}
+
+	log.Println(id)
+	log.Println("RESULTAT")
+
+	log.Println(r1)
+	for _, elem := range r1.([]interface{}) {
+		var id2 int
+		log.Println(elem)
+		rows, _ := a.DB.Raw("select id from new_node where student_name = ?", elem).Rows()
+		defer rows.Close()
+		for rows.Next() {
+			_ = rows.Scan(&id2)
+			log.Println("WASDASDAS")
+			log.Println(id2)
+			log.Println(id)
+		}
+		a.DB.Exec("INSERT INTO `connections` (`node_id_1`, `node_id_2`) VALUES (?,?)", id, id2)
+	}
+
+	for _, elem := range r3.([]interface{}) {
+		var id2 int
+		log.Println(elem)
+		rows, _ := a.DB.Raw("select id from new_node where student_name = ?", elem).Rows()
+		defer rows.Close()
+		for rows.Next() {
+			log.Print(rows)
+			_ = rows.Scan(&id2)
+		}
+		a.DB.Exec("INSERT INTO `connections` (`node_id_1`, `node_id_2`) VALUES (?,?)", id, id2)
+	}
+
+	for _, elem := range r4.([]interface{}) {
+		var id2 int
+		log.Println(elem)
+		rows, _ := a.DB.Raw("select id from new_node where student_name = ?", elem).Rows()
+		defer rows.Close()
+		for rows.Next() {
+			log.Print(rows)
+			_ = rows.Scan(&id2)
+		}
+		a.DB.Exec("INSERT INTO `connections` (`node_id_1`, `node_id_2`) VALUES (?,?)", id, id2)
+	}
+
+	for _, elem := range r6.([]interface{}) {
+		var id2 int
+		log.Println(elem)
+		rows, _ := a.DB.Raw("select id from new_node where student_name = ?", elem).Rows()
+		defer rows.Close()
+		for rows.Next() {
+			log.Print(rows)
+			_ = rows.Scan(&id2)
+		}
+		a.DB.Exec("INSERT INTO `connections` (`node_id_1`, `node_id_2`) VALUES (?,?)", id, id2)
+	}
+
+	for _, elem := range r7.([]interface{}) {
+		var id2 int
+		log.Println(elem)
+		defer rows.Close()
+		rows, _ := a.DB.Raw("select id from new_node where student_name = ?", elem).Rows()
+		for rows.Next() {
+			log.Print(rows)
+			_ = rows.Scan(&id2)
+		}
+		a.DB.Exec("INSERT INTO `connections` (`node_id_1`, `node_id_2`) VALUES (?,?)", id, id2)
+	}
+
+	r2,_ := strconv.ParseInt(data["response2"].(string), 10, 64)
+	r5,_ := strconv.ParseInt(data["response5"].(string), 10, 64)
+
+	res := r2+r5
+	a.DB.Exec("UPDATE `new_node` SET  `influencia` = ? WHERE `student_name` = ?", res, params[0])
+
+	enableCors(&w)
+	fmt.Fprintf(w, "OK")
+}
+
 func GetUsers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
 
 	params, ok := r.URL.Query()["id"]
 
@@ -375,6 +552,8 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	if err := a.DB.Save(&student).Error; err != nil {
 		log.Println(err)
 	}
+
+	a.DB.Exec("INSERT INTO new_node(student_name, influencia, feeling) VALUES (?,?,?);", student.Name, 0, 0)
 
 	fmt.Fprintf(w, "{ \"status_code\": 200}")
 }

@@ -19,5 +19,7 @@ func main() {
 	router.GET("/getQuestions", GetQuestions)
 	router.POST("/register", Register)
 	router.POST("/update", UpdateGroup)
+	router.POST("/updateNode", UpdateNode)
+	router.POST("/updateEdges", UpdateEdges)
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
