@@ -251,13 +251,6 @@ func GetGroups(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 func GetUsers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
-	log.Print("testerino")
-
-	setupResponse(&w, r)
-	if (*r).Method == "OPTIONS" {
-		return
-	}
-
 	params, ok := r.URL.Query()["id"]
 
 	if !ok || len(params[0]) < 1 {
@@ -268,24 +261,20 @@ func GetUsers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	log.Println("id=", groupID)
 
-	student := []Student{}
-
+	group := Group{}
 	a := &App{}
 	a.ConnectToDb()
-	a.DB.Find(&student)
-
-	log.Println(student)
+	a.DB.Where("id = ?", groupID).First(&group)
 
 	strUsers := "["
 
-	//for i := range group.Student {
-	//	log.Println(strconv.FormatUint(uint64(group.Student[i].ID), 10))
-	//	strUsers += "{\"id\": " + strconv.FormatUint(uint64(group.Student[i].ID), 10) + ", \"Name\": \"" + group.Student[i].Name + "\"},"
-	//}
+	for i := range group.Student {
+		log.Println(strconv.FormatUint(uint64(group.Student[i].ID), 10))
+		strUsers += "{\"id\": " + strconv.FormatUint(uint64(group.Student[i].ID), 10) + ", \"Name\": \"" + group.Student[i].Name + "\"},"
+	}
 
 	/*students := []Student{}
 	a.DB.Where("group = ?", group).Find(&students)
-
 	for student := range students {
 		log.Println(strconv.FormatUint(uint64(student.ID), 10))
 		strUsers += "{\"id\": " + strconv.FormatUint(uint64(student.ID), 10) + ", \"Name\": \"" + student.Name + "\"},"
@@ -294,9 +283,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	strUsers = strUsers[:len(strUsers)] + "]"
 
-	enableCors(&w)
-
-	//log.Printf(strUsers)
+	log.Printf(strUsers)
 	fmt.Fprintf(w, strUsers)
 }
 
