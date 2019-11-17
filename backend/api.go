@@ -18,6 +18,6 @@ func main() {
 	router.POST("/addUsers", AddUser)
 	router.GET("/getQuestions", GetQuestions)
 	router.POST("/register", Register)
-	router.POST("/update", UpdateGroup)
+	router.POST("/update", updateWeight)
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

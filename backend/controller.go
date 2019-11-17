@@ -177,18 +177,9 @@ func CreateGroup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	//operations to create group on DB
 	status_code := 200
-	/*if err != nil {
-		status_code = 500
-	}*/
 	res := &Response{
 		statusCode: status_code,
-		body:       "HOLA PUTA", /* func() {
-			if err != nil {
-				fmt.Sprintf("couldn't create group. Error: %s", err.Error())
-			} else {
-				"Group created successfully"
-			}
-		},*/
+		body:       "HOLA PUTA",
 	}
 
 	enableCors(&w)
@@ -333,7 +324,7 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	a := &App{}
 	a.ConnectToDb()
 
-	code ,_ := strconv.ParseInt(data["code"].(string), 10, 64)
+	code, _ := strconv.ParseInt(data["code"].(string), 10, 64)
 	gid, _ := strconv.ParseInt(data["groupid"].(string), 10, 64)
 
 	student.Name = data["name"].(string)
