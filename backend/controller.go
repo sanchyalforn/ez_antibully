@@ -284,10 +284,14 @@ func UpdateNode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 }
 
 func UpdateEdges(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
 	setupResponse(&w, r)
+
 	if (*r).Method == "OPTIONS" {
 		return
 	}
+
+	enableCors(&w)
 
 	params, ok := r.URL.Query()["student"]
 
@@ -395,7 +399,6 @@ func UpdateEdges(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	res := r2 + r5
 	a.DB.Exec("UPDATE `new_node` SET  `influencia` = ? WHERE `student_name` = ?", res, params[0])
 
-	enableCors(&w)
 	fmt.Fprintf(w, "OK")
 }
 
