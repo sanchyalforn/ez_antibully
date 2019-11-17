@@ -584,7 +584,7 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	i = 0
 	for rowsEdges.Next() {
 		_ = rowsEdges.Scan(&node_id_1, &node_id_2)
-		strGraph += "{\"id\": " + strconv.Itoa(i) + ", \"source\": " + strconv.Itoa(node_id_1) + ", \"x\": " + strconv.Itoa(node_id_2) + "},"
+		strGraph += "{\"id\": " + strconv.Itoa(i) + ", \"source\": " + strconv.Itoa(node_id_1) + ", \"target\": " + strconv.Itoa(node_id_2) + "},"
 		i++
 	}
 
