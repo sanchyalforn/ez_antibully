@@ -521,11 +521,29 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	fmt.Fprintf(w, "{ \"status_code\": 200}")
 }
 
+func intToHex(value float64) string {
+	result := int((15.0 * value) / 255.0)
+	log.Print(result)
+	if result < 10 {
+		return strconv.Itoa(result)
+	} else if value == 10 {
+		return "A"
+	} else if value == 11 {
+		return "B"
+	} else if value == 12 {
+		return "C"
+	} else if value == 13 {
+		return "D"
+	} else if value == 14 {
+		return "E"
+	}
+	return "F"
+}
 func computeColor(value int) string {
 	if value <= 10 {
-		return "[" + strconv.Itoa(int(255-(float64(value)/10)*255)) + ", 0, 0, 1]"
+		return "#" + intToHex(255-(float64(value)/10)*255) + "00"
 	}
-	return "[0, " + strconv.Itoa(int((float64(value)-10)/10)*255) + ", 0, 1]"
+	return "#0" + intToHex(((float64(value)-10)/10)*255) + "0"
 }
 
 func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -564,12 +582,13 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	for rowsNodes.Next() {
 		_ = rowsNodes.Scan(&id, &student_name, &feeling, &influencia)
 
-		strGraph += "{\"id\": " + strconv.Itoa(id) + ", \"label\": \"" + student_name + "\", \"color\": " + computeColor(feeling) + ", \"x\":" + strconv.Itoa(i) + ",\"y\":" + strconv.Itoa(j) + ", \"size\": " + strconv.Itoa(influencia+5*20) + "},"
+		strGraph += "{\"id\": " + strconv.Itoa(id) + ", \"label\": \"" + student_name + "\", \"color\": \"" + computeColor(feeling) + "\", \"x\":" + strconv.Itoa(i) + ",\"y\":" + strconv.Itoa(j) + ", \"size\": " + strconv.Itoa((influencia+5)*20) + "},"
 		if k {
 			i++
 			k = false
 		} else {
 			j++
+			i--
 			k = true
 		}
 	}
@@ -584,7 +603,7 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	i = 0
 	for rowsEdges.Next() {
 		_ = rowsEdges.Scan(&node_id_1, &node_id_2)
-		strGraph += "{\"id\": " + strconv.Itoa(i) + ", \"source\": " + strconv.Itoa(node_id_1) + ", \"target\": " + strconv.Itoa(node_id_2) + "},"
+		strGraph += "{\"id\": " + strconv.Itoa(i) + ", \"source\": " + strconv.Itoa(node_id_1) + ", \"target\": " + strconv.Itoa(node_id_2) + ", \"type\": \"arrow\", \"size\": 500},"
 		i++
 	}
 
