@@ -522,7 +522,6 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 }
 func intToHex(value float64) string {
 	result := int((15.0 * value) / 255.0)
-	log.Print(result)
 	if result < 10 {
 		return strconv.Itoa(result)
 	} else if value == 10 {
@@ -586,6 +585,7 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 			i++
 			k = false
 		} else {
+			i--
 			j++
 			k = true
 		}
