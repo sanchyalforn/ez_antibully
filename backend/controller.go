@@ -520,12 +520,29 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	fmt.Fprintf(w, "{ \"status_code\": 200}")
 }
-
+func intToHex(value float64) string {
+	result := int((15.0 * value) / 255.0)
+	log.Print(result)
+	if result < 10 {
+		return strconv.Itoa(result)
+	} else if value == 10 {
+		return "A"
+	} else if value == 11 {
+		return "B"
+	} else if value == 12 {
+		return "C"
+	} else if value == 13 {
+		return "D"
+	} else if value == 14 {
+		return "E"
+	}
+	return "F"
+}
 func computeColor(value int) string {
 	if value <= 10 {
-		return "[" + strconv.Itoa(int(255-(float64(value)/10)*255)) + ", 0, 0, 1]"
+		return "#" + intToHex(255-(float64(value)/10)*255) + "00"
 	}
-	return "[0, " + strconv.Itoa(int((float64(value)-10)/10)*255) + ", 0, 1]"
+	return "#0" + intToHex(((float64(value)-10)/10)*255) + "0"
 }
 
 func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
