@@ -504,11 +504,11 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	a := &App{}
 	a.ConnectToDb()
 
-	code, _ := strconv.ParseInt(data["code"].(string), 10, 64)
-	gid, _ := strconv.ParseInt(data["groupid"].(string), 10, 64)
+	//code, _ := strconv.ParseInt(data["code"].(string), 10, 64)
+	//gid, _ := strconv.ParseInt(data["groupid"].(string), 10, 64)
 
 	student.Name = data["name"].(string)
-	student.Code = int(code)
+	student.Code = 123
 
 	a.DB.Where("id = ?", int(gid)).First(&student.Group)
 
