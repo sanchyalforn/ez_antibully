@@ -160,6 +160,8 @@ class Feelings extends Component {
 
   submitFeelingAnswers = () => {
       // Post que torna totes les respostes jeje
+      
+      this.props.history.push("/");
   }
 
   render() {

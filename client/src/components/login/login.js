@@ -7,13 +7,13 @@ import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core";
 
-import clsx from 'clsx';
-import ErrorIcon from '@material-ui/icons/Error';
-import CloseIcon from '@material-ui/icons/Close';
-import { red } from '@material-ui/core/colors';
-import IconButton from '@material-ui/core/IconButton';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
+import clsx from "clsx";
+import ErrorIcon from "@material-ui/icons/Error";
+import CloseIcon from "@material-ui/icons/Close";
+import { red } from "@material-ui/core/colors";
+import IconButton from "@material-ui/core/IconButton";
+import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
 
 import api, { setUsername } from "../../api/axios";
 
@@ -50,44 +50,49 @@ const TextFieldStyled = withStyles(theme => ({
 }))(TextField);
 
 const useStyles1 = makeStyles(theme => ({
-	error: {
-	  backgroundColor: red,
-	},
-	icon: {
-	  fontSize: 20,
-	},
-	iconVariant: {
-	  opacity: 0.9,
-	  marginRight: theme.spacing(1),
-	},
-	message: {
-	  display: 'flex',
-	  alignItems: 'center',
-	},
-  }));
-  
-  function MySnackbarContentWrapper(props) {
-	const classes = useStyles1();
-	const { className, onClose, variant } = props;
-  
-	return (
-	  <SnackbarContent
-		className={clsx(classes[variant], className)}
-		aria-describedby="client-snackbar"
-		message={
-		  <span id="client-snackbar" className={classes.message}>
-			<ErrorIcon className={clsx(classes.icon, classes.iconVariant)} />
-			Incorrect username or password!
-		  </span>
-		}
-		action={[
-		  <IconButton key="close" aria-label="close" color="inherit" onClick={onClose}>
-			<CloseIcon className={classes.icon} />
-		  </IconButton>,
-		]}
-	  />
-	);
+  error: {
+    backgroundColor: red
+  },
+  icon: {
+    fontSize: 20
+  },
+  iconVariant: {
+    opacity: 0.9,
+    marginRight: theme.spacing(1)
+  },
+  message: {
+    display: "flex",
+    alignItems: "center"
   }
+}));
+
+function MySnackbarContentWrapper(props) {
+  const classes = useStyles1();
+  const { className, onClose, variant } = props;
+
+  return (
+    <SnackbarContent
+      className={clsx(classes[variant], className)}
+      aria-describedby="client-snackbar"
+      message={
+        <span id="client-snackbar" className={classes.message}>
+          <ErrorIcon className={clsx(classes.icon, classes.iconVariant)} />
+          Incorrect username or password!
+        </span>
+      }
+      action={[
+        <IconButton
+          key="close"
+          aria-label="close"
+          color="inherit"
+          onClick={onClose}
+        >
+          <CloseIcon className={classes.icon} />
+        </IconButton>
+      ]}
+    />
+  );
+}
 
 class Login extends Component {
   constructor(props) {
@@ -115,7 +120,7 @@ class Login extends Component {
         this.props.history.push("/teacher");
       })
       .catch(error => {
-		    this.setState({ openError: true });
+        this.setState({ openError: true });
         if (error.response) {
           console.log(error.response);
         }
@@ -123,7 +128,6 @@ class Login extends Component {
   }
 
   register() {
-	
     console.log("same with register");
   }
 
@@ -138,7 +142,9 @@ class Login extends Component {
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           open={this.state.openError}
           autoHideDuration={5000}
-          onClose={() => {this.handleClose()}}
+          onClose={() => {
+            this.handleClose();
+          }}
         >
           <MySnackbarContentWrapper
             variant="error"
@@ -183,7 +189,9 @@ class Login extends Component {
           <Grid item xs={12}>
             <ColorButton
               variant="extended"
-              onClick={() => {this.register()}}
+              onClick={() => {
+                this.register();
+              }}
               color="default"
             >
               Register
