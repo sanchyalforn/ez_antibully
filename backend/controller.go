@@ -179,7 +179,7 @@ func CreateGroup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	status_code := 200
 	res := &Response{
 		statusCode: status_code,
-		body:       "HOLA PUTA",
+		body:       "OKAY",
 	}
 
 	enableCors(&w)
@@ -312,7 +312,6 @@ func UpdateEdges(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	a := &App{}
 	a.ConnectToDb()
 
-	log.Println("AAAAAAA " + params[0])
 	rows, _ := a.DB.Raw("SELECT id FROM new_node WHERE student_name = ?", params[0]).Rows()
 
 	var id int
@@ -412,19 +411,6 @@ func GetUsers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	strUsers := "["
 
-	/*for i := range group.Student {
-		log.Println(strconv.FormatUint(uint64(group.Student[i].ID), 10))
-		strUsers += "{\"id\": " + strconv.FormatUint(uint64(group.Student[i].ID), 10) + ", \"Name\": \"" + group.Student[i].Name + "\"},"
-	}*/
-
-	/*students := []Student{}
-	a.DB.Where("group = ?", group).Find(&students)
-	for student := range students {
-		log.Println(strconv.FormatUint(uint64(student.ID), 10))
-		strUsers += "{\"id\": " + strconv.FormatUint(uint64(student.ID), 10) + ", \"Name\": \"" + student.Name + "\"},"
-	}
-	*/
-
 	student := []Student{}
 	a.DB.Find(&student)
 
@@ -457,15 +443,8 @@ func GetAnswers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 
 	student := []Student{}
-	//questionId := params[0]
 	a := &App{}
 	a.ConnectToDb()
-
-	/*a.DB.Where("id = ?", questionId).First(&question)
-	strAnswers := "["
-	for _, answer := range question.Answers {
-		strAnswers += "{\"answer\": " + answer.Answer + "},"
-	}*/
 
 	strAnswers := "["
 	a.DB.Find(&student)
