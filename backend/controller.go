@@ -560,21 +560,38 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		id_destinity int
 	}
 
-	var resultNodes []Node
-	a.DB.Raw("SELECT id, student_name, influencia, feeling FROM new_node").Scan(&resultNodes)
+	rowsNodes, _ := a.DB.Raw("SELECT id, student_name, influencia, feeling FROM new_node").Rows()
 
 	strGraph := "{'nodes': ["
 
-	for i := range resultNodes {
-		strGraph += "{'id': " + strconv.Itoa(resultNodes[i].id) + ", 'label': " + resultNodes[i].student_name + ", 'color': " + computeColor(resultNodes[i].feeling) + "'x': 0,'y': 0, 'size': " + strconv.Itoa(resultNodes[i].influencia) + "},"
+	var id int
+	var student_name string
+	var feeling int
+	var influencia int
+	defer rowsNodes.Close()
+
+	for rowsNodes.Next() {
+		_ = rowsNodes.Scan(&id)
+		_ = rowsNodes.Scan(&student_name)
+		_ = rowsNodes.Scan(&feeling)
+		_ = rowsNodes.Scan(&influencia)
+
+		strGraph += "{'id': " + strconv.Itoa(id) + ", 'label': " + student_name + ", 'color': " + computeColor(feeling) + "'x': 0,'y': 0, 'size': " + strconv.Itoa(influencia) + "},"
 	}
 	strGraph += "],'edges': ["
 
-	var resultEdges []Connection
-	a.DB.Raw("SELECT id, id_origin, id_destinity FROM connections").Scan(&resultEdges)
+	rowsEdges, _ := a.DB.Raw("SELECT id, node_id_1, node_id_2 FROM connections").Rows()
 
-	for i := range resultEdges {
-		strGraph += "{'id': " + strconv.Itoa(i) + ", 'source': " + strconv.Itoa(resultEdges[i].id_origin) + ", 'x': " + strconv.Itoa(resultEdges[i].id_destinity) + "},"
+	var node_id_1 int
+	var node_id_2 int
+	defer rowsEdges.Close()
+
+	i := 0
+	for rowsEdges.Next() {
+		_ = rowsEdges.Scan(&node_id_1)
+		_ = rowsEdges.Scan(&node_id_2)
+		strGraph += "{'id': " + strconv.Itoa(i) + ", 'source': " + strconv.Itoa(node_id_1) + ", 'x': " + strconv.Itoa(node_id_2) + "},"
+		i++
 	}
 
 	strGraph += "]}"
