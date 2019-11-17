@@ -105,6 +105,7 @@ class Home extends Component {
           primary={"Elementary 1"}
           onClick={() => {
             console.log("Elementary 1");
+            this.props.history.push("/teacher/graph");
           }}
         />
       </ListItem>
@@ -115,6 +116,7 @@ class Home extends Component {
           primary={"Elementary 2"}
           onClick={() => {
             console.log("Elementary 2");
+            this.props.history.push("/teacher/graph");
           }}
         />
       </ListItem>
@@ -125,6 +127,7 @@ class Home extends Component {
           primary={"Elementary 3"}
           onClick={() => {
             console.log("Elementary 3");
+            this.props.history.push("/teacher/graph");
           }}
         />
       </ListItem>
@@ -184,7 +187,7 @@ class Home extends Component {
           </DialogActions>
         </Dialog>
 
-        <h1 style={{ textAlign: "center" }}> Groups lists from {getUsername()} </h1>
+        <h1 style={{ textAlign: "center" }}> Groups lists for {getUsername()} </h1>
         <ColorButton
           variant="extended"
           onClick={() => {

@@ -6,6 +6,7 @@ import Home from './components/group-list/group-list.js'
 import Main from './components/main/main.js'
 import Relations from './components/questions/questions-relations.js'
 import Feelings from './components/questions/questions-feelings.js'
+import Graph from './components/graph-page/graph-page.js'
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
             <Route path="/" exact component={ Main } />
             <Route path="/teacher/login" exact component={ Login } />
             <Route path="/teacher" exact component={ Home } />
+            <Route path="/teacher/graph" exact component={ Graph } />
             <Route path="/student/login" exact component={ Code } />
             <Route path="/student/1" exact component={ Relations } />
             <Route path="/student/2" exact component={ Feelings } />
