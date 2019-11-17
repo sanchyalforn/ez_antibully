@@ -561,14 +561,11 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	for rowsNodes.Next() {
 		_ = rowsNodes.Scan(&id, &student_name, &feeling, &influencia)
 
-		strGraph += "{\"id\": " + strconv.Itoa(id) + ", \"label\": \"" + student_name + "\", \"color\": " + computeColor(feeling) + "\"x\": 0,\"y\": 0, \"size\": " + strconv.Itoa(influencia) + "},"
+		strGraph += "{\"id\": " + strconv.Itoa(id) + ", \"label\": \"" + student_name + "\", \"color\": " + computeColor(feeling) + ", \"x\": 0,\"y\": 0, \"size\": " + strconv.Itoa(influencia) + "},"
 	}
 	strGraph += "],\"edges\": ["
 
 	rowsEdges, _ := a.DB.Raw("SELECT node_id_1, node_id_2 FROM connections").Rows()
-
-	log.Println("THIS IS A TEST")
-	log.Println(rowsEdges)
 
 	var node_id_1 int
 	var node_id_2 int
