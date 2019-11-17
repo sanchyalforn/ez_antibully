@@ -438,8 +438,6 @@ func GetUsers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		strUsers += "]"
 	}
 
-	strUsers = strUsers[:len(strUsers)] + "]"
-
 	log.Printf(strUsers)
 	fmt.Fprintf(w, strUsers)
 }
