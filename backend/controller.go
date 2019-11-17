@@ -370,6 +370,13 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	fmt.Fprintf(w, "{ \"status_code\": 200}")
 }
 
+func computeColor(value int) string {
+	if value <= 10 {
+		return "rgb(" + string(255-(value/10)*255) + " 0, 0)"
+	}
+	return "rgb(0, " + string((value/10)*255) + ", 0)"
+}
+
 func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	a := &App{}
 	a.ConnectToDb()
@@ -392,7 +399,7 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	strGraph := "{'nodes': ["
 
 	for i := range resultNodes {
-		strGraph += "{'id': " + strconv.Itoa(resultNodes[i].id) + ", 'label': " + resultNodes[i].student_name + ", 'x': 0,'y': 0, 'size': " + strconv.Itoa(resultNodes[i].influencia) + "},"
+		strGraph += "{'id': " + strconv.Itoa(resultNodes[i].id) + ", 'label': " + resultNodes[i].student_name + ", 'color': " + computeColor(resultNodes[i].feeling) + "'x': 0,'y': 0, 'size': " + strconv.Itoa(resultNodes[i].influencia) + "},"
 	}
 	strGraph += "],'edges': ["
 
