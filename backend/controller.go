@@ -199,6 +199,26 @@ func CreateGroup(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateGroup(w http.ResponseWriter, r *http.Request) {
+	if (*r).Method != "PUT" || (*r).Method != "POST" {
+		return
+	}
+	params, ok := r.URL.Query()["id"]
+
+	if !ok || len(params[0]) < 1 {
+		log.Println("Url Param 'key' is missing")
+		return
+	}
+	groupID := params[0]
+
+	request, _ := ioutil.ReadAll(r.Body)
+
+	var data map[string]interface{}
+	json.Unmarshal([]byte(string(request)), &data)
+
+	newUsers := data["students"].(string)
+	a := &App{}
+	a.ConnectToDb()
+	a.DB.Where("id = ?", groupID).Update("Student", newUsers)
 
 }
 
