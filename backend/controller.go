@@ -37,6 +37,7 @@ func enableCors(w *http.ResponseWriter) {
 }
 
 func setupResponse(w *http.ResponseWriter, req *http.Request) {
+	(*w).Header().Set("X-Requested-With", "*")
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
@@ -52,7 +53,6 @@ func Register(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	request, _ := ioutil.ReadAll(r.Body)
 	log.Println(string(request))
 
-	//professor := Professor{}
 	var data map[string]interface{}
 	json.Unmarshal([]byte(string(request)), &data)
 
@@ -553,7 +553,7 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var feeling int
 	var influencia int
 	defer rowsNodes.Close()
-	log.print(len(rowsNodes))
+	log.Println("Test")
 	for rowsNodes.Next() {
 		_ = rowsNodes.Scan(&id, &student_name, &feeling, &influencia)
 
