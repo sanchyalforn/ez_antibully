@@ -111,7 +111,7 @@ class Login extends Component {
 
   login() {
     api
-      .post("/login", {
+      .post("/login/", {
         username: this.state.username,
         password: this.state.password
       })
@@ -129,7 +129,7 @@ class Login extends Component {
 
   register() {
     api
-      .post("/register", {
+      .post("/register/", {
         username: this.state.username,
         password: this.state.password
       })
