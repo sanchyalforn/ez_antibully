@@ -102,8 +102,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
 
 	if professor.PasswordHash != pass {
+		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "{ \"status_code\": 404}")
 	} else {
+		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "{ \"status_code\": 200}")
 	}
 }
@@ -208,6 +210,7 @@ func GetGroups(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	groups := []Group{}
 	a := &App{}
 	a.ConnectToDb()
 	a.DB.Find(&groups)
@@ -282,6 +285,7 @@ func GetAnswers(w http.ResponseWriter, r *http.Request) {
 	params, ok := r.URL.Query()["questionId"]
 	if !ok || len(params[0]) < 1 {
 		log.Print(w, "\"status\": Bad request\"\"}")
+		fmt.Fprintf(w, "\"status\": Bad request\"\"}")
 	}
 	question := Question{}
 	questionId := params[0]
