@@ -128,7 +128,21 @@ class Login extends Component {
   }
 
   register() {
-    console.log("same with register");
+    api
+      .post("/register", {
+        username: this.state.username,
+        password: this.state.password
+      })
+      .then(resp => {
+        setUsername(this.state.username);
+        this.props.history.push("/teacher");
+      })
+      .catch(error => {
+        this.setState({ openError: true });
+        if (error.response) {
+          console.log(error.response);
+        }
+      });
   }
 
   render() {

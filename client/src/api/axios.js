@@ -17,6 +17,13 @@ function getUsername() {
     return cookies.get("username");
 }
 
+function setUserCode(name) {
+    cookies.set("name", name, { path: "/" });
+}
+
+function getUserCode() {
+    return cookies.get("name");
+}
 
 export default api;
-export { setUsername, getUsername };
+export { setUsername, getUsername, setUserCode, getUserCode };

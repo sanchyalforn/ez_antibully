@@ -11,6 +11,7 @@ import sliderGif from "../../images/slider.gif";
 import thanksGif from "../../images/thanks.gif";
 import NavigateNextRoundedIcon from "@material-ui/icons/NavigateNextRounded";
 import ArrowBackIosRoundedIcon from "@material-ui/icons/ArrowBackIosRounded";
+import api, { getUserCode } from "../../api/axios";
 
 const useStyle = makeStyles(theme => ({}));
 
@@ -159,10 +160,28 @@ class Feelings extends Component {
   };
 
   submitFeelingAnswers = () => {
-      // Post que torna totes les respostes jeje
-      
-      this.props.history.push("/");
-  }
+    let json = {
+      response1: this.state.response1.toString(),
+      response2: this.state.response2.toString(),
+      response3: this.state.response3.toString(),
+      response4: this.state.response4.toString(),
+      response5: this.state.response5.toString()
+    };
+
+    console.log(json);
+
+    api
+      .post("/updateNode?student=" + getUserCode(), json)
+      .then(resp => {
+        console.log(resp);
+        this.props.history.push("/");
+      })
+      .catch(error => {
+        if (error.response) {
+          console.log(error.response);
+        }
+      });
+  };
 
   render() {
     return (
@@ -226,8 +245,9 @@ class Feelings extends Component {
               <img src={sad} alt="sad" />
               <SliderStyled
                 defaultValue={0}
-                getAriaValueText={this.state.response1}
-                aria-labelledby="discrete-slider"
+                onChangeCommitted={(e, value) => {
+                  this.setState({ response1: value });
+                }}
                 valueLabelDisplay="auto"
                 step={1}
                 marks
@@ -270,8 +290,9 @@ class Feelings extends Component {
               <img src={sad} alt="sad" />
               <SliderStyled
                 defaultValue={0}
-                getAriaValueText={this.state.response1}
-                aria-labelledby="discrete-slider"
+                onChangeCommitted={(e, value) => {
+                  this.setState({ response2: value });
+                }}
                 valueLabelDisplay="auto"
                 step={1}
                 marks
@@ -323,8 +344,9 @@ class Feelings extends Component {
               <img src={sad} alt="sad" />
               <SliderStyled
                 defaultValue={0}
-                getAriaValueText={this.state.response1}
-                aria-labelledby="discrete-slider"
+                onChangeCommitted={(e, value) => {
+                  this.setState({ response3: value });
+                }}
                 valueLabelDisplay="auto"
                 step={1}
                 marks
@@ -376,8 +398,9 @@ class Feelings extends Component {
               <img src={sad} alt="sad" />
               <SliderStyled
                 defaultValue={0}
-                getAriaValueText={this.state.response1}
-                aria-labelledby="discrete-slider"
+                onChangeCommitted={(e, value) => {
+                  this.setState({ response4: value });
+                }}
                 valueLabelDisplay="auto"
                 step={1}
                 marks
@@ -429,8 +452,9 @@ class Feelings extends Component {
               <img src={sad} alt="sad" />
               <SliderStyled
                 defaultValue={0}
-                getAriaValueText={this.state.response1}
-                aria-labelledby="discrete-slider"
+                onChangeCommitted={(e, value) => {
+                  this.setState({ response5: value });
+                }}
                 valueLabelDisplay="auto"
                 step={1}
                 marks
@@ -465,10 +489,11 @@ class Feelings extends Component {
                 fontSize: "30px",
                 marginBottom: 20,
                 marginTop: 30,
-                color: '#00A99D'
+                color: "#00A99D"
               }}
             >
-              ** This is the last question! You would not come back! <br/> Be sure you answer well!
+              ** This is the last question! You would not come back! <br /> Be
+              sure you answer well!
             </h2>
           </div>
         ) : null}
@@ -487,7 +512,7 @@ class Feelings extends Component {
             <div style={{ textAlign: "center" }}>
               <img src={thanksGif} alt="gif" style={{ textAlign: "center" }} />
             </div>
-            <div style={{ textAlign: "center", marginTop: '25px' }}>
+            <div style={{ textAlign: "center", marginTop: "25px" }}>
               <ColorButtonEnd
                 variant="extended"
                 onClick={() => {

@@ -7,12 +7,12 @@ import letsgoGif from "../../images/start.gif";
 import continueGif from "../../images/continue.gif";
 import NavigateNextRoundedIcon from "@material-ui/icons/NavigateNextRounded";
 import ArrowBackIosRoundedIcon from "@material-ui/icons/ArrowBackIosRounded";
-import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import api, { getUserCode } from "../../api/axios";
 
 const useStyle = makeStyles(theme => ({}));
 
@@ -102,36 +102,60 @@ class Relations extends Component {
       playground3: "",
       playground4: "",
       airplane1: "",
-	airplane2: "",
-	stories1: "",
-	stories2: "",
-	stories3: "",
-	belive1: "",
-	belive2: "",
-	belive3: "",
+      airplane2: "",
+      stories1: "",
+      stories2: "",
+      stories3: "",
+      belive1: "",
+      belive2: "",
+      belive3: ""
     };
   }
 
   componentDidMount() {
-    /* let parti = this.props.part;
-	let arr = [];
-	for (let i = 0; i < parti.length; ++i) {
-	    arr.push(<Select.Option value={parti[i]} key={i}> {parti[i]} </Select.Option>);
-	}*/
-
-    let arr = [];
-
-    arr.push(<MenuItem value={"Lucas"}>Lucas</MenuItem>);
-    arr.push(<MenuItem value={"Pedro"}>Pedro</MenuItem>);
-    arr.push(<MenuItem value={"Catiana"}>Catiana</MenuItem>);
-    arr.push(<MenuItem value={"Martina"}>Martina</MenuItem>);
-
-    this.setState({ classmates: arr });
+    api
+      .get("/getUsers")
+      .then(resp => {
+        console.log(resp.data);
+        let parti = resp.data;
+        let arr = [];
+        for (let i = 0; i < parti.length; ++i) {
+          arr.push(<MenuItem value={parti[i].Name}>{parti[i].Name}</MenuItem>);
+        }
+        this.setState({ classmates: arr });
+      })
+      .catch(error => {
+        if (error.response) {
+          console.log(error.response);
+        }
+      });
   }
 
   feelings = () => {
-    // enviar respostes de totes les preguntes
     console.log(this.state);
+
+    var sendToBackend = {
+      "response1": this.state.response1,
+      "response2": this.state.response2,
+      "response3": this.state.response3,
+      "response4": this.state.response4,
+      "response5": this.state.response5,
+      "response6": this.state.response6,
+      "response7": this.state.response7,
+    }
+
+    console.log(sendToBackend);
+
+    api
+      .post("/updateEdges?student=" + getUserCode(), sendToBackend)
+      .then(resp => {
+        console.log(resp);
+      })
+      .catch(error => {
+        if (error.response) {
+          console.log(error.response);
+        }
+      });
     this.props.history.push("/student/2");
   };
 
@@ -255,8 +279,8 @@ class Relations extends Component {
       question1: false,
       question2: false,
       question3: false,
-	question4: false,
-	response4: [this.state.airplane1, this.state.airplane2],
+      question4: false,
+      response4: [this.state.airplane1, this.state.airplane2],
       question5: true,
       question6: false,
       question7: false,
@@ -293,17 +317,16 @@ class Relations extends Component {
   };
 
   toQuestion7Fwd = () => {
-
-	let arr = [];
-	if (this.state.belive1 !== "") {
-		arr.push(this.state.belive1);
-	}
-	if (this.state.belive2 !== "") {
-		arr.push(this.state.belive2);
-	}
-	if (this.state.belive3 !== "") {
-		arr.push(this.state.belive3);
-	}
+    let arr = [];
+    if (this.state.belive1 !== "") {
+      arr.push(this.state.belive1);
+    }
+    if (this.state.belive2 !== "") {
+      arr.push(this.state.belive2);
+    }
+    if (this.state.belive3 !== "") {
+      arr.push(this.state.belive3);
+    }
 
     this.setState({
       intro: false,
@@ -312,8 +335,8 @@ class Relations extends Component {
       question3: false,
       question4: false,
       question5: false,
-	question6: false,
-	response6: arr,
+      question6: false,
+      response6: arr,
       question7: true,
       end: false
     });
@@ -328,12 +351,15 @@ class Relations extends Component {
       question4: false,
       question5: false,
       question6: false,
-	question7: false,
-	response7: [this.state.stories1, this.state.stories2, this.state.stories3],
+      question7: false,
+      response7: [
+        this.state.stories1,
+        this.state.stories2,
+        this.state.stories3
+      ],
       end: true
     });
   };
-
 
   selectOption = name => {
     if (name === "first") {
@@ -792,18 +818,18 @@ class Relations extends Component {
               }}
             >
               WHO WOULD BE THE PILOT?
-		</h1>
-		<h2
-		style={{
-		  textAlign: "center",
-		  fontSize: "30px",
-		  color: "#00A99D"
-		}}
-	    >
-		{this.state.response5}
-	    </h2>
+            </h1>
+            <h2
+              style={{
+                textAlign: "center",
+                fontSize: "30px",
+                color: "#00A99D"
+              }}
+            >
+              {this.state.response5}
+            </h2>
 
-		<Grid container>
+            <Grid container>
               <Grid item xs={6}>
                 <ColorButtonWhite
                   variant="extended"
@@ -868,69 +894,70 @@ class Relations extends Component {
               }}
             >
               WHO WOULD YOU BELIVE MOST?
-		</h1>
-		<h2
-		style={{
-		  textAlign: "center",
-		  fontSize: "30px",
-		  color: "#00A99D"
-		}}
-	    >
-		In this question you can select only one classmate and up to 3. <br/> The order is important!
-	    </h2>
-	    <Grid container spacing={4}>
-	    <Grid item xs={6}>
-		<FormControl>
-		  <InputLabel id="demo-simple-select-label">
-		    First confident
-		  </InputLabel>
-		  <SelectStyled
-		    labelId="demo-simple-select-label"
-		    id="demo-simple-select"
-		    value={this.state.belive1}
-		    onChange={e => {
-			this.setState({ belive1: e.target.value });
-		    }}
-		  >
-		    {this.state.classmates}
-		  </SelectStyled>
-		</FormControl>
-	    </Grid>
-	    <Grid item xs={6}>
-		<FormControl>
-		  <InputLabel id="demo-simple-select-label">
-		    Second confident
-		  </InputLabel>
-		  <SelectStyled
-		    labelId="demo-simple-select-label"
-		    id="demo-simple-select"
-		    value={this.state.belive2}
-		    onChange={e => {
-			this.setState({ belive2: e.target.value });
-		    }}
-		  >
-		    {this.state.classmates}
-		  </SelectStyled>
-		</FormControl>
-	    </Grid>
-	    <Grid item xs={6}>
-		<FormControl>
-		  <InputLabel id="demo-simple-select-label">
-		    Third confident
-		  </InputLabel>
-		  <SelectStyled
-		    labelId="demo-simple-select-label"
-		    id="demo-simple-select"
-		    value={this.state.belive3}
-		    onChange={e => {
-			this.setState({ belive3: e.target.value });
-		    }}
-		  >
-		    {this.state.classmates}
-		  </SelectStyled>
-		</FormControl>
-	    </Grid>
-	  </Grid>
+            </h1>
+            <h2
+              style={{
+                textAlign: "center",
+                fontSize: "30px",
+                color: "#00A99D"
+              }}
+            >
+              In this question you can select only one classmate and up to 3.{" "}
+              <br /> The order is important!
+            </h2>
+            <Grid container spacing={4}>
+              <Grid item xs={6}>
+                <FormControl>
+                  <InputLabel id="demo-simple-select-label">
+                    First confident
+                  </InputLabel>
+                  <SelectStyled
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={this.state.belive1}
+                    onChange={e => {
+                      this.setState({ belive1: e.target.value });
+                    }}
+                  >
+                    {this.state.classmates}
+                  </SelectStyled>
+                </FormControl>
+              </Grid>
+              <Grid item xs={6}>
+                <FormControl>
+                  <InputLabel id="demo-simple-select-label">
+                    Second confident
+                  </InputLabel>
+                  <SelectStyled
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={this.state.belive2}
+                    onChange={e => {
+                      this.setState({ belive2: e.target.value });
+                    }}
+                  >
+                    {this.state.classmates}
+                  </SelectStyled>
+                </FormControl>
+              </Grid>
+              <Grid item xs={6}>
+                <FormControl>
+                  <InputLabel id="demo-simple-select-label">
+                    Third confident
+                  </InputLabel>
+                  <SelectStyled
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={this.state.belive3}
+                    onChange={e => {
+                      this.setState({ belive3: e.target.value });
+                    }}
+                  >
+                    {this.state.classmates}
+                  </SelectStyled>
+                </FormControl>
+              </Grid>
+            </Grid>
 
             <div style={{ textAlign: "center" }}>
               <ColorButton
@@ -965,8 +992,8 @@ class Relations extends Component {
               }}
             >
               WHO IS THE BEST STORIES STORYTELLER?
-		</h1>
-		<Grid container spacing={4}>
+            </h1>
+            <Grid container spacing={4}>
               <Grid item xs={6}>
                 <FormControl>
                   <InputLabel id="demo-simple-select-label">
