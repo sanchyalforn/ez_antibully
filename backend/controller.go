@@ -507,7 +507,7 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	//code, _ := strconv.ParseInt(data["code"].(string), 10, 64)
 	//gid, _ := strconv.ParseInt(data["groupid"].(string), 10, 64)
 
-	student.Name = data["name"].(string)
+	student.Name = data["user"].(string)
 	student.Code = 123
 
 	enableCors(&w)
