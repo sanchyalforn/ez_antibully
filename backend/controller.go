@@ -254,6 +254,8 @@ func UpdateNode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
+	enableCors(&w)
+
 	params, ok := r.URL.Query()["student"]
 
 	if !ok || len(params[0]) < 1 {
@@ -279,7 +281,6 @@ func UpdateNode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	a.DB.Exec("UPDATE `new_node` SET  `feeling` = ? WHERE `student_name` = ?", result, params[0])
 
-	enableCors(&w)
 	fmt.Fprintf(w, "OK")
 }
 
