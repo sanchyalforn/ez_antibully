@@ -558,13 +558,9 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var feeling int
 	var influencia int
 	defer rowsNodes.Close()
-<<<<<<< HEAD
 	i := 0
 	j := 0
 	k := true
-=======
-	log.Println("Test")
->>>>>>> e25a20960b4601d31a80751af4f0385529e2237b
 	for rowsNodes.Next() {
 		_ = rowsNodes.Scan(&id, &student_name, &feeling, &influencia)
 
