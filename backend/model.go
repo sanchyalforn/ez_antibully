@@ -56,7 +56,6 @@ type Answer struct {
 
 func DBMigrate(db *gorm.DB) *gorm.DB {
 	db.AutoMigrate(&Group{}, &Student{}, &Professor{}, &Node{}, &Graph{}, &Question{}, &Answer{})
-	db.Model(&Student{}).AddForeignKey("group_id", "groups(id)", "RESTRICT", "RESTRICT")
 
 	return db
 }

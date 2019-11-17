@@ -28,7 +28,6 @@ func (a *App) ConnectToDb() {
 		log.Fatal("Could not connect database")
 	}
 
-	log.Println("uwu")
 	a.DB = DBMigrate(db)
 }
 
@@ -259,10 +258,10 @@ func GetUsers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	strUsers := "["
 
-	for i := range group.Student {
+	/*for i := range group.Student {
 		log.Println(strconv.FormatUint(uint64(group.Student[i].ID), 10))
 		strUsers += "{\"id\": " + strconv.FormatUint(uint64(group.Student[i].ID), 10) + ", \"Name\": \"" + group.Student[i].Name + "\"},"
-	}
+	}*/
 
 	/*students := []Student{}
 	a.DB.Where("group = ?", group).Find(&students)
@@ -271,6 +270,19 @@ func GetUsers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		strUsers += "{\"id\": " + strconv.FormatUint(uint64(student.ID), 10) + ", \"Name\": \"" + student.Name + "\"},"
 	}
 	*/
+
+	student := []Student{}
+	a.DB.Find(&student)
+
+	for _, answer := range student {
+		strUsers += "{\"id\": " + strconv.FormatUint(uint64(answer.ID), 10) + ", \"Name\": \"" + answer.Name + "\"},"
+	}
+
+	if len(strUsers) > 1 {
+		strUsers = strUsers[:len(strUsers)-1] + "]"
+	} else {
+		strUsers += "]"
+	}
 
 	strUsers = strUsers[:len(strUsers)] + "]"
 
@@ -288,17 +300,34 @@ func GetAnswers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	params, ok := r.URL.Query()["questionId"]
 	if !ok || len(params[0]) < 1 {
 		log.Print(w, "\"status\": Bad request\"\"}")
-		fmt.Fprintf(w, "\"status\": Bad request\"\"}")
+		fmt.Fprintf(w, "\"status\": \"Bad request\"}")
+		return
 	}
-	question := Question{}
-	questionId := params[0]
+
+	student := []Student{}
+	//questionId := params[0]
 	a := &App{}
 	a.ConnectToDb()
-	a.DB.Where("id = ?", questionId).First(&question)
+
+	/*a.DB.Where("id = ?", questionId).First(&question)
 	strAnswers := "["
 	for _, answer := range question.Answers {
 		strAnswers += "{\"answer\": " + answer.Answer + "},"
+	}*/
+
+	strAnswers := "["
+	a.DB.Find(&student)
+
+	for _, answer := range student {
+		strAnswers += "{\"answer\": \"" + answer.Name + "\"},"
 	}
+
+	if len(strAnswers) > 1 {
+		strAnswers = strAnswers[:len(strAnswers)-1] + "]"
+	} else {
+		strAnswers += "]"
+	}
+
 
 	enableCors(&w)
 
