@@ -3,14 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/jinzhu/gorm"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
-
-	"github.com/sanchyy/ez_antibully/model"
-
-	"github.com/jinzhu/gorm"
 )
 
 type Response struct {
@@ -205,16 +202,12 @@ func UpdateGroup(w http.ResponseWriter, r *http.Request) {
 
 func GetGroups(w http.ResponseWriter, r *http.Request) {
 
-<<<<<<< HEAD
 	groups := []Group{}
-=======
 	setupResponse(&w, r)
 	if (*r).Method == "OPTIONS" {
 		return
 	}
 
-	groups := []model.Group{}
->>>>>>> 69be9a4d5dd5d88f47978880bdca5d737075d672
 	a := &App{}
 	a.ConnectToDb()
 	a.DB.Find(&groups)
@@ -288,11 +281,7 @@ func GetAnswers(w http.ResponseWriter, r *http.Request) {
 
 	params, ok := r.URL.Query()["questionId"]
 	if !ok || len(params[0]) < 1 {
-<<<<<<< HEAD
 		log.Print(w, "\"status\": Bad request\"\"}")
-=======
-		fmt.Fprintf(w, "\"status\": Bad request\"\"}")
->>>>>>> 69be9a4d5dd5d88f47978880bdca5d737075d672
 	}
 	question := Question{}
 	questionId := params[0]
