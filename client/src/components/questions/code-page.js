@@ -6,6 +6,9 @@ import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core";
 import api, { setUserCode } from "../../api/axios";
+import logo from "../../images/logo.PNG";
+import logoMillorat from "../../images/logomillorat.PNG";
+import logoTransparent from "../../images/logoTransparent.PNG";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -48,17 +51,19 @@ class Code extends Component {
 
   next() {
     console.log(this.state.name);
-    
-    api.post("/addUser", {"user": this.state.name}).then(resp => {
-      console.log(resp);
-      setUserCode(this.state.name);
-    this.props.history.push("/student/1");
-    })
-    .catch(error => {
-      if (error.response) {
-        console.log(error.response);
-      }
-    });    
+
+    api
+      .post("/addUser", { user: this.state.name })
+      .then(resp => {
+        console.log(resp);
+        setUserCode(this.state.name);
+        this.props.history.push("/student/1");
+      })
+      .catch(error => {
+        if (error.response) {
+          console.log(error.response);
+        }
+      });
   }
 
   render() {
@@ -69,7 +74,12 @@ class Code extends Component {
         autoComplete="off"
       >
         <Grid container direction="column" justify="center" alignItems="center">
-          <Grid item xs={12} style={{ marginTop: "12%" }}>
+          <div style={{ textAlign: "center", marginTop: "6%" }}>
+            <img src={logoTransparent} alt={logo} />
+            <img src={logoMillorat} alt={logo} />
+            <img src={logo} alt={logo} />
+          </div>
+          <Grid item xs={12}>
             <TextFieldStyled
               required
               id="name"

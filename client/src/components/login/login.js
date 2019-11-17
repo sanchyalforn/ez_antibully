@@ -14,6 +14,9 @@ import { red } from "@material-ui/core/colors";
 import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import SnackbarContent from "@material-ui/core/SnackbarContent";
+import logo from "../../images/logo.PNG";
+import logoMillorat from "../../images/logomillorat.PNG";
+import logoTransparent from "../../images/logoTransparent.PNG";
 
 import api, { setUsername } from "../../api/axios";
 
@@ -166,7 +169,12 @@ class Login extends Component {
           />
         </Snackbar>
         <Grid container direction="column" justify="center" alignItems="center">
-          <Grid item xs={12} style={{ marginTop: "12%" }}>
+        <div style={{ textAlign: "center", marginTop: "6%" }}>
+            <img src={logoTransparent} alt={logo} />
+            <img src={logoMillorat} alt={logo} />
+            <img src={logo} alt={logo} />
+          </div>
+          <Grid item xs={12}>
             <TextFieldStyled
               required
               id="username"
