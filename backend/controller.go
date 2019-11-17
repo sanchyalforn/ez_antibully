@@ -407,20 +407,8 @@ func GetUsers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	params, ok := r.URL.Query()["id"]
-
-	if !ok || len(params[0]) < 1 {
-		log.Println("Url Param 'key' is missing")
-		return
-	}
-	groupID := params[0]
-
-	log.Println("id=", groupID)
-
-	group := Group{}
 	a := &App{}
 	a.ConnectToDb()
-	a.DB.Where("id = ?", groupID).First(&group)
 
 	strUsers := "["
 
