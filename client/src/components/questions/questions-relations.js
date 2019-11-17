@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { withStyles, Grid } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 
 const useStyle = makeStyles(theme => ({}));
