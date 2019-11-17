@@ -487,7 +487,7 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	a := &App{}
 	a.ConnectToDb()
 
-	student.Name = data["name"].(string)
+	student.Name = data["user"].(string)
 	student.Code = 123
 
 	enableCors(&w)
