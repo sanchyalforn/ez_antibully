@@ -64,11 +64,11 @@ func Register(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	a := &App{}
 	a.ConnectToDb()
 
-	enableCors(&w)
-
 	if err := a.DB.Save(&professor).Error; err != nil {
 		log.Println(err)
 	}
+
+	enableCors(&w)
 
 	fmt.Fprintf(w, "{ \"status_code\": 200}")
 }
