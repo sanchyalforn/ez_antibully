@@ -582,13 +582,11 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		_ = rowsNodes.Scan(&id, &student_name, &feeling, &influencia)
 
 		strGraph += "{\"id\": " + strconv.Itoa(id) + ", \"label\": \"" + student_name + "\", \"color\": \"" + computeColor(feeling) + "\", \"x\":" + strconv.Itoa(i) + ",\"y\":" + strconv.Itoa(j) + ", \"size\": " + strconv.Itoa((influencia+5)*20) + "},"
-		if i > j {
-			j++
-			i--
-		} else if j > i {
+		if i < count {
 			i++
 		} else {
-			i++
+			j++
+			i = 0
 		}
 	}
 	strGraph = strGraph[:len(strGraph)-1] + "],\"edges\": ["
