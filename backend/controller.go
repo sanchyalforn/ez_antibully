@@ -581,7 +581,7 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	for rowsNodes.Next() {
 		_ = rowsNodes.Scan(&id, &student_name, &feeling, &influencia)
 
-		strGraph += "{\"id\": " + strconv.Itoa(id) + ", \"label\": \"" + student_name + "\", \"color\": \"" + computeColor(feeling) + "\", \"x\":" + strconv.Itoa(i) + ",\"y\":" + strconv.Itoa(j) + ", \"size\": " + strconv.Itoa((influencia+5)*20) + "},"
+		strGraph += "{\"id\": " + strconv.Itoa(id) + ", \"label\": \"" + student_name + "\", \"color\": \"" + computeColor(feeling) + "\", \"x\":" + strconv.Itoa(i) + ",\"y\":" + strconv.Itoa(j) + ", \"size\": " + strconv.Itoa(influencia+2) + "},"
 		if i > j {
 			j++
 			i--
@@ -602,7 +602,7 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	i = 0
 	for rowsEdges.Next() {
 		_ = rowsEdges.Scan(&node_id_1, &node_id_2)
-		strGraph += "{\"id\": " + strconv.Itoa(i) + ", \"source\": " + strconv.Itoa(node_id_1) + ", \"target\": " + strconv.Itoa(node_id_2) + ", \"type\": \"arrow\", \"size\": 500},"
+		strGraph += "{\"id\": " + strconv.Itoa(i) + ", \"source\": " + strconv.Itoa(node_id_1) + ", \"target\": " + strconv.Itoa(node_id_2) + ", \"type\": \"curvedArrow\", \"size\": 2},"
 		i++
 	}
 
