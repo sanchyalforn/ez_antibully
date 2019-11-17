@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
+
+	"github.com/julienschmidt/httprouter"
 )
 
 func main() {
@@ -21,5 +22,6 @@ func main() {
 	router.POST("/update", UpdateGroup)
 	router.POST("/updateNode", UpdateNode)
 	router.POST("/updateEdges", UpdateEdges)
+	router.GET("/getGraph", GetGraph)
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

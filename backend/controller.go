@@ -3,12 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/jinzhu/gorm"
-	"github.com/julienschmidt/httprouter"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/jinzhu/gorm"
+	"github.com/julienschmidt/httprouter"
 )
 
 type Response struct {
@@ -176,18 +177,9 @@ func CreateGroup(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	//operations to create group on DB
 	status_code := 200
-	/*if err != nil {
-		status_code = 500
-	}*/
 	res := &Response{
 		statusCode: status_code,
-		body:       "HOLA PUTA", /* func() {
-			if err != nil {
-				fmt.Sprintf("couldn't create group. Error: %s", err.Error())
-			} else {
-				"Group created successfully"
-			}
-		},*/
+		body:       "HOLA PUTA",
 	}
 
 	enableCors(&w)
@@ -514,7 +506,6 @@ func GetAnswers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		strAnswers += "]"
 	}
 
-
 	enableCors(&w)
 
 	fmt.Fprintf(w, strAnswers)
@@ -539,7 +530,7 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	a := &App{}
 	a.ConnectToDb()
 
-	code ,_ := strconv.ParseInt(data["code"].(string), 10, 64)
+	code, _ := strconv.ParseInt(data["code"].(string), 10, 64)
 	gid, _ := strconv.ParseInt(data["groupid"].(string), 10, 64)
 
 	student.Name = data["name"].(string)
@@ -556,4 +547,49 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	a.DB.Exec("INSERT INTO new_node(student_name, influencia, feeling) VALUES (?,?,?);", student.Name, 0, 0)
 
 	fmt.Fprintf(w, "{ \"status_code\": 200}")
+}
+
+func computeColor(value int) string {
+	if value <= 10 {
+		return "rgb(" + string(255-(value/10)*255) + " 0, 0)"
+	}
+	return "rgb(0, " + string((value/10)*255) + ", 0)"
+}
+
+func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	a := &App{}
+	a.ConnectToDb()
+
+	type Node struct {
+		id           int
+		student_name string
+		influencia   int
+		feeling      int
+	}
+
+	type Connection struct {
+		id_origin    int
+		id_destinity int
+	}
+
+	var resultNodes []Node
+	a.DB.Raw("SELECT id, student_name, influencia, feeling FROM new_node").Scan(&resultNodes)
+
+	strGraph := "{'nodes': ["
+
+	for i := range resultNodes {
+		strGraph += "{'id': " + strconv.Itoa(resultNodes[i].id) + ", 'label': " + resultNodes[i].student_name + ", 'color': " + computeColor(resultNodes[i].feeling) + "'x': 0,'y': 0, 'size': " + strconv.Itoa(resultNodes[i].influencia) + "},"
+	}
+	strGraph += "],'edges': ["
+
+	var resultEdges []Connection
+	a.DB.Raw("SELECT id, id_origin, id_destinity FROM connections").Scan(&resultEdges)
+
+	for i := range resultEdges {
+		strGraph += "{'id': " + strconv.Itoa(i) + ", 'source': " + strconv.Itoa(resultEdges[i].id_origin) + ", 'x': " + strconv.Itoa(resultEdges[i].id_destinity) + "},"
+	}
+
+	strGraph += "]}"
+
+	fmt.Fprintf(w, strGraph)
 }

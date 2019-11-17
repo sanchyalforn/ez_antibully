@@ -15,10 +15,10 @@ type Group struct {
 
 type Student struct {
 	gorm.Model
-	Name    string 	`json:"name"`
-	Code	int		`json:"code"`
-	GroupID int		`gorm:"size:10" json:"group_id"`
-	Group   Group	`gorm:"ForeignKey:GroupID;AssociationForeignKey:ID"`
+	Name    string `json:"name"`
+	Code    int    `json:"code"`
+	GroupID int    `gorm:"size:10" json:"group_id"`
+	Group   Group  `gorm:"ForeignKey:GroupID;AssociationForeignKey:ID"`
 }
 
 type Professor struct {
