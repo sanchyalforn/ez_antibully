@@ -573,7 +573,7 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 			k = true
 		}
 	}
-	strGraph += "],\"edges\": ["
+	strGraph = strGraph[:len(strGraph)-1] + "],\"edges\": ["
 
 	rowsEdges, _ := a.DB.Raw("SELECT node_id_1, node_id_2 FROM connections").Rows()
 
@@ -588,7 +588,7 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		i++
 	}
 
-	strGraph += "]}"
+	strGraph = strGraph[:len(strGraph)-1] + "]}"
 
 	fmt.Fprintf(w, strGraph)
 }
