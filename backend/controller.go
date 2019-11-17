@@ -210,7 +210,6 @@ func GetGroups(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	groups := []Group{}
 	a := &App{}
 	a.ConnectToDb()
 	a.DB.Find(&groups)
