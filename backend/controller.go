@@ -510,8 +510,6 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	student.Name = data["name"].(string)
 	student.Code = 123
 
-	a.DB.Where("id = ?", int(gid)).First(&student.Group)
-
 	enableCors(&w)
 
 	if err := a.DB.Save(&student).Error; err != nil {
