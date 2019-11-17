@@ -254,8 +254,6 @@ func UpdateNode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	enableCors(&w)
-
 	params, ok := r.URL.Query()["student"]
 
 	if !ok || len(params[0]) < 1 {
@@ -281,18 +279,15 @@ func UpdateNode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	a.DB.Exec("UPDATE `new_node` SET  `feeling` = ? WHERE `student_name` = ?", result, params[0])
 
+	enableCors(&w)
 	fmt.Fprintf(w, "OK")
 }
 
 func UpdateEdges(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-
 	setupResponse(&w, r)
-
 	if (*r).Method == "OPTIONS" {
 		return
 	}
-
-	enableCors(&w)
 
 	params, ok := r.URL.Query()["student"]
 
@@ -317,6 +312,7 @@ func UpdateEdges(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	a := &App{}
 	a.ConnectToDb()
 
+	log.Println("AAAAAAA " + params[0])
 	rows, _ := a.DB.Raw("SELECT id FROM new_node WHERE student_name = ?", params[0]).Rows()
 
 	var id int
@@ -400,6 +396,7 @@ func UpdateEdges(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	res := r2 + r5
 	a.DB.Exec("UPDATE `new_node` SET  `influencia` = ? WHERE `student_name` = ?", res, params[0])
 
+	enableCors(&w)
 	fmt.Fprintf(w, "OK")
 }
 
@@ -414,6 +411,19 @@ func GetUsers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	a.ConnectToDb()
 
 	strUsers := "["
+
+	/*for i := range group.Student {
+		log.Println(strconv.FormatUint(uint64(group.Student[i].ID), 10))
+		strUsers += "{\"id\": " + strconv.FormatUint(uint64(group.Student[i].ID), 10) + ", \"Name\": \"" + group.Student[i].Name + "\"},"
+	}*/
+
+	/*students := []Student{}
+	a.DB.Where("group = ?", group).Find(&students)
+	for student := range students {
+		log.Println(strconv.FormatUint(uint64(student.ID), 10))
+		strUsers += "{\"id\": " + strconv.FormatUint(uint64(student.ID), 10) + ", \"Name\": \"" + student.Name + "\"},"
+	}
+	*/
 
 	student := []Student{}
 	a.DB.Find(&student)
@@ -447,8 +457,15 @@ func GetAnswers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 
 	student := []Student{}
+	//questionId := params[0]
 	a := &App{}
 	a.ConnectToDb()
+
+	/*a.DB.Where("id = ?", questionId).First(&question)
+	strAnswers := "["
+	for _, answer := range question.Answers {
+		strAnswers += "{\"answer\": " + answer.Answer + "},"
+	}*/
 
 	strAnswers := "["
 	a.DB.Find(&student)
@@ -487,7 +504,10 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	a := &App{}
 	a.ConnectToDb()
 
-	student.Name = data["user"].(string)
+	//code, _ := strconv.ParseInt(data["code"].(string), 10, 64)
+	//gid, _ := strconv.ParseInt(data["groupid"].(string), 10, 64)
+
+	student.Name = data["name"].(string)
 	student.Code = 123
 
 	enableCors(&w)
@@ -503,9 +523,9 @@ func AddUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 func computeColor(value int) string {
 	if value <= 10 {
-		return "rgb(" + strconv.Itoa(255-(value/10)*255) + ", 0, 0)"
+		return "[" + strconv.Itoa(255-(value/10)*255) + ", 0, 0, 1]"
 	}
-	return "rgb(0, " + strconv.Itoa(((value-10)/10)*255) + ", 0)"
+	return "[0, " + strconv.Itoa(((value-10)/10)*255) + ", 0, 1]"
 }
 
 func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -533,7 +553,7 @@ func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var feeling int
 	var influencia int
 	defer rowsNodes.Close()
-
+	log.print(len(rowsNodes))
 	for rowsNodes.Next() {
 		_ = rowsNodes.Scan(&id, &student_name, &feeling, &influencia)
 
