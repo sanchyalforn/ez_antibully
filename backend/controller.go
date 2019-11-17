@@ -248,18 +248,6 @@ func GetGroups(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	fmt.Fprintf(w, strGroups)
 }
 
-func GetGraph(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	setupResponse(&w, r)
-	if (*r).Method == "OPTIONS" {
-		return
-	}
-
-	// Generate Graph
-
-	enableCors(&w)
-	fmt.Fprintf(w, "OK")
-}
-
 func UpdateNode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	setupResponse(&w, r)
 	if (*r).Method == "OPTIONS" {
@@ -278,13 +266,13 @@ func UpdateNode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var data map[string]interface{}
 	json.Unmarshal([]byte(string(request)), &data)
 
-	r1,_ := strconv.ParseInt(data["response1"].(string), 10, 64)
-	r2,_ := strconv.ParseInt(data["response2"].(string), 10, 64)
-	r3,_ := strconv.ParseInt(data["response3"].(string), 10, 64)
-	r4,_ := strconv.ParseInt(data["response4"].(string), 10, 64)
-	r5,_ := strconv.ParseInt(data["response5"].(string), 10, 64)
+	r1, _ := strconv.ParseInt(data["response1"].(string), 10, 64)
+	r2, _ := strconv.ParseInt(data["response2"].(string), 10, 64)
+	r3, _ := strconv.ParseInt(data["response3"].(string), 10, 64)
+	r4, _ := strconv.ParseInt(data["response4"].(string), 10, 64)
+	r5, _ := strconv.ParseInt(data["response5"].(string), 10, 64)
 
-	result := r1+r2+r3+r4+r5
+	result := r1 + r2 + r3 + r4 + r5
 
 	a := &App{}
 	a.ConnectToDb()
@@ -313,13 +301,13 @@ func UpdateEdges(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var data map[string]interface{}
 	json.Unmarshal([]byte(string(request)), &data)
 
-	r1,_ := data["response1"]
+	r1, _ := data["response1"]
 
-	r3,_ := data["response3"]
-	r4,_ := data["response4"]
+	r3, _ := data["response3"]
+	r4, _ := data["response4"]
 
-	r6,_ := data["response6"]
-	r7,_ := data["response7"]
+	r6, _ := data["response6"]
+	r7, _ := data["response7"]
 
 	a := &App{}
 	a.ConnectToDb()
@@ -402,10 +390,10 @@ func UpdateEdges(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		a.DB.Exec("INSERT INTO `connections` (`node_id_1`, `node_id_2`) VALUES (?,?)", id, id2)
 	}
 
-	r2,_ := strconv.ParseInt(data["response2"].(string), 10, 64)
-	r5,_ := strconv.ParseInt(data["response5"].(string), 10, 64)
+	r2, _ := strconv.ParseInt(data["response2"].(string), 10, 64)
+	r5, _ := strconv.ParseInt(data["response5"].(string), 10, 64)
 
-	res := r2+r5
+	res := r2 + r5
 	a.DB.Exec("UPDATE `new_node` SET  `influencia` = ? WHERE `student_name` = ?", res, params[0])
 
 	enableCors(&w)
