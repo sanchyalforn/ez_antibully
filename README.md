@@ -1,11 +1,14 @@
-![Logo](/images/image.PNG)
+<br>
+<p align="center">
+  <img alt="Logo" src="images/image.png" width="50%"/>
+</p>
+<br>
 
-[![HitCount](http://hits.dwyl.io/elena20ruiz/easycam.svg)](http://hits.dwyl.io/elena20ruiz/easycam)
-[![GitHub stars](https://img.shields.io/github/stars/elena20ruiz/easycam.svg)](https://GitHub.com/elena20ruiz/easycam/stargazers/)
-[![GitHub forks](https://img.shields.io/github/forks/elena20ruiz/easycam.svg)](https://GitHub.com/elena20ruiz/easycam/network/)
-[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/elena20ruiz/easycam.svg)](https://github.com/elena20ruiz/easycam)
-[![GitHub contributors](https://img.shields.io/github/contributors/elena20ruiz/easycam.svg)](https://GitHub.com/elena20ruiz/easycam/graphs/contributors/)
-[![GitHub license](https://img.shields.io/github/license/elena20ruiz/easycam.svg)](https://github.com/elena20ruiz/easycam/blob/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/carlotacb/ClassController.svg)](https://GitHub.com/carlotacb/ClassController/stargazers/)
+[![GitHub forks](https://img.shields.io/github/forks/carlotacb/ClassController.svg)](https://GitHub.com/carlotacb/ClassController/network/)
+[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/carlotacb/ClassController.svg)](https://github.com/carlotacb/easycam)
+[![GitHub contributors](https://img.shields.io/github/contributors/carlotacb/ClassController.svg)](https://GitHub.com/carlotacb/ClassController/graphs/contributors/)
+[![GitHub license](https://img.shields.io/github/license/carlotacb/ClassController.svg)](https://github.com/carlotacb/ClassController/blob/master/LICENSE)
 
 ## Why we create this project... Our inspiration
 
