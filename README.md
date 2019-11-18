@@ -1,7 +1,7 @@
-# METICE IS MY LUV
+# Class Controller
 
 ## Inspiration
-Many of us , when we were just child we used to see so many situations that could be prevented if someone had the knowledge of the situation. 
+Many of us, when we were just child we used to see so many situations that could be prevented if someone had the knowledge of the situation. 
 
 ## What it does
 in a group of students. After answering a bunch of questions, we can visualize which student is seen as a leader for the rest of the group or which one is the person that
