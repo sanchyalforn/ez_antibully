@@ -158,8 +158,7 @@ To run the application you need to run the first the backend and then frontend:
 1. First you need to go to the frontend folder:
 
     ```bash
-    cd ..
-    cd frontend
+    cd ../frontend
     ```
 
 2. Install all the node dependencies:
