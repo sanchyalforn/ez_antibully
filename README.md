@@ -36,9 +36,9 @@ We are very proud of all the project in general! Finishing the web on time and d
 
 ### What we learned
 
-For the **back-End** (as we commented in the _challenge_ part) we learn to do a backend in Golang, also we learn about Gorm.
+For the **back-end** (as we commented in the _challenge_ part) we learn to do a backend in Golang, also we learn about Gorm.
 
-For the **front-End** we learn about Material UI for the design of the web and also we learn about graph visualization.
+For the **front-end** we learn about Material UI for the design of the web and also we learn about graph visualization.
 
 In **general** we learn about comunication inside the team.
 
@@ -51,7 +51,7 @@ In the next vesions of ClassControl we think that the questions can be personali
 First of all, when you open the aplication you need to choose your profile (student or teacher)
 <br>
 <p align="center">
-  <img alt="Logo" src="images/start-page.PNG" width="50%"/>
+  <img alt="Logo" src="images/start-page.PNG" width="80%"/>
 </p>
 <br>
 
@@ -60,14 +60,14 @@ First of all, when you open the aplication you need to choose your profile (stud
 1. **Login page**: The teacher needs to enter a username and a password to login the application, and if it doesn't have account, register.
     <br>
     <p align="center">
-    <img alt="Logo" src="images/teacher-login.PNG" width="50%"/>
+    <img alt="Logo" src="images/teacher-login.PNG" width="80%"/>
     </p>
     <br>
 
 2. **Groups Page**: The teacher can see a list with all their groups, and also add groups on the list on it by entering a name and a list of students separated by comas. When a group is clicked, it goes to the dependency graph page.
     <br>
     <p align="center">
-    <img alt="Logo" src="images/groups-page.PNG" width="50%"/>
+    <img alt="Logo" src="images/groups-page.PNG" width="80%"/>
     </p>
     <br>
 
@@ -78,7 +78,7 @@ First of all, when you open the aplication you need to choose your profile (stud
 1. **Login page**: The student needs to enteer their complete name to start answering the questions.
     <br>
     <p align="center">
-    <img alt="Logo" src="images/student-login.PNG" width="50%"/>
+    <img alt="Logo" src="images/student-login.PNG" width="80%"/>
     </p>
     <br>
 
@@ -86,66 +86,47 @@ First of all, when you open the aplication you need to choose your profile (stud
     1. **Type 1 - Selection of multiple classmates**: The students can choose anyone in the classrom.
         <br>
         <p align="center">
-        <img alt="Logo" src="images/questions-type1.PNG" width="50%"/>
+        <img alt="Logo" src="images/questions-type1.PNG" width="80%"/>
         </p>
         <br>
 
     2. **Type 2 - Selection of one classmate**: The student have to choose betwen 3 or 4 classmates (depending on the previous answers).
         <br>
         <p align="center">
-        <img alt="Logo" src="images/questions-type2.PNG" width="50%"/>
+        <img alt="Logo" src="images/questions-type2.PNG" width="80%"/>
         </p>
         <br>
 
     3. **Type 3 - Rating**: The student have to rate selecting a number between 0 and 4.
         <br>
         <p align="center">
-        <img alt="Logo" src="images/questions-type3.PNG" width="50%"/>
+        <img alt="Logo" src="images/questions-type3.PNG" width="80%"/>
         </p>
         <br>
 
 #### Questions
 
 1. **Relations questions**
-    1. *Type 1*
-        Q: Who would you choose to do a school project?
-        A: The student have to those 4 students
-    2. *Type 2*
-        Q: Who would be the best leader?
-        A: The student have to choose one of the 4 students selected in the last question, or theirself]
-    3. *Type 1*
-        Q: Who would you choose to play at the playground?
-        A: The student have to those 4 students
-    4. *Type 1*
-        Q: Who would you choose to be in an airplain cabin?
-        A: The student have to those 2 students
-    5. *Type 2*
-        Q: Who would be the pilot?
-        A: The student have to choose one of the 2 students selected in the last question, or theirself
-    6. *Type 1*
-        Q: Who would you believe most?
-        A: The student have to those between 1 or 3 students
-    7. *Type 1*
-        Q: Who tell the best stories?
-        A: The student have to those 3 students
+    1. *Type 1* <br/> Q: Who would you choose to do a school project? <br/> A: The student have to those 4 students
+    2. *Type 2* <br/> Q: Who would be the best leader? <br/> A: The student have to choose one of the 4 students selected in the last question, or theirself]
+    3. *Type 1* <br/> Q: Who would you choose to play at the playground? <br/> A: The student have to those 4 students
+    4. *Type 1* <br/> Q: Who would you choose to be in an airplain cabin? <br/> A: The student have to those 2 students
+    5. *Type 2* <br/> Q: Who would be the pilot? <br/> A: The student have to choose one of the 2 students selected in the last question, or theirself
+    6. *Type 1* <br/> Q: Who would you believe most? <br/> A: The student have to those between 1 or 3 students
+    7. *Type 1* <br/> Q: Who tell the best stories? <br/> A: The student have to those 3 students
 
 2. **Feelings questions**
-    1. *Type 3*
-        Q: Are you happy?  
-    2. *Type 3*
-        Q: Are you alone?
-    3. *Type 3*
-        Q: Are you happy playing at the playground?
-    4. *Type 3*
-        Q: Do you like going to school?
-    5. *Type 3*
-        Q: Are you happy with the friends you have?
+    1. *Type 3* <br/> Q: Are you happy? <br/> A: Number between 0 and 4
+    2. *Type 3* <br/> Q: Are you alone? <br/> A: Number between 0 and 4
+    3. *Type 3* <br/> Q: Are you happy playing at the playground? <br/> A: Number between 0 and 4
+    4. *Type 3* <br/> Q: Do you like going to school? <br/> A: Number between 0 and 4
+    5. *Type 3* <br/> Q: Are you happy with the friends you have? <br/> A: Number between 0 and 4
 
 ## Requirements
 
 To run this application you need to have installed in you PC the following:
 
-1. node.js
+1. Node.js
 2. Golang
 
 ## Usage
